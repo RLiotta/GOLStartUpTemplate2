@@ -32,16 +32,32 @@ namespace GOLStartUpTemplate2
             // Setup the timer
             timer.Interval = 100; // milliseconds
             timer.Tick += Timer_Tick;
-            timer.Enabled = true; // start timer running
+            timer.Enabled = false; // start timer running
         }
 
         // Calculate the next generation of cells
         private void NextGeneration()
         {
+            for (int y = 0; y < universe.GetLength(1); y++)
+            {
+                // Iterate through the universe in the x, left to right
+                for (int x = 0; x < universe.GetLength(0); x++)
+                {
+                    //int count = CountNeighbor
 
+                    //universe[y, x] = universe[x, y];
 
-            // Increment generation count
-            generations++;
+                    // Apply the rules
+
+                    //turn in on/off the scratchPad
+                }
+            }
+
+            //Copy from scratchPad to universe
+            //make sure to clear scratchPad
+
+                    // Increment generation count
+                    generations++;
 
             // Update status strip generations
             toolStripStatusLabelGenerations.Text = "Generations = " + generations.ToString();
@@ -55,6 +71,7 @@ namespace GOLStartUpTemplate2
 
         private void graphicsPanel1_Paint(object sender, PaintEventArgs e)
         {
+            //floats!!!
             // Calculate the width and height of each cell in pixels
             // CELL WIDTH = WINDOW WIDTH / NUMBER OF CELLS IN X
             int cellWidth = graphicsPanel1.ClientSize.Width / universe.GetLength(0);
@@ -74,6 +91,7 @@ namespace GOLStartUpTemplate2
                 for (int x = 0; x < universe.GetLength(0); x++)
                 {
                     // A rectangle to represent each cell in pixels
+                    // RectangleF
                     Rectangle cellRect = Rectangle.Empty;
                     cellRect.X = x * cellWidth;
                     cellRect.Y = y * cellHeight;
@@ -101,6 +119,8 @@ namespace GOLStartUpTemplate2
             // If the left mouse button was clicked
             if (e.Button == MouseButtons.Left)
             {
+                //floats
+
                 // Calculate the width and height of each cell in pixels
                 int cellWidth = graphicsPanel1.ClientSize.Width / universe.GetLength(0);
                 int cellHeight = graphicsPanel1.ClientSize.Height / universe.GetLength(1);
@@ -118,5 +138,12 @@ namespace GOLStartUpTemplate2
                 graphicsPanel1.Invalidate();
             }
         }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+
     }
 }
