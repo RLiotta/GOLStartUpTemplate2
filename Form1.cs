@@ -63,6 +63,88 @@ namespace GOLStartUpTemplate2
             toolStripStatusLabelGenerations.Text = "Generations = " + generations.ToString();
         }
 
+        // count neighbors toroidal
+        private int CountNeighborsToroidal(int x, int y)
+        {
+            int count = 0;
+            int xLen = universe.GetLength(0);
+            int yLen = universe.GetLength(1);
+            for (int yOffset = -1; yOffset <= 1; yOffset++)
+            {
+                for (int xOffset = -1; xOffset <= 1; xOffset++)
+                {
+                    int xCheck = x + xOffset;
+                    int yCheck = y + yOffset;
+                    // if xOffset and yOffset are both equal to 0 then continue
+                    if (xOffset == 0 && yOffset == 0)
+                        continue;
+                    // if xCheck is less than 0 then set to xLen - 1
+                    if (xCheck < 0)
+                    { 
+                        xLen =- 1;
+                        continue;
+                    }
+                    // if yCheck is less than 0 then set to yLen - 1
+                    if (yCheck < 0)
+                    {
+                        yLen =- 1;
+                        continue;
+
+                    }
+                    // if xCheck is greater than or equal too xLen then set to 0
+                    if (xCheck >= xLen)
+                    {
+                        xLen = 0;
+                        continue;
+
+                    }
+                    // if yCheck is greater than or equal too yLen then set to 0
+                    if (yCheck >= yLen)
+                    {
+                        yLen = 0;
+                        continue;
+
+                    }
+
+                    if (universe[xCheck, yCheck] == true) count++;
+                }
+            }
+            return count;
+        }
+
+        // count neighbors finite
+        private int CountNeighborsFinite(int x, int y)
+        {
+            int count = 0;
+            int xLen = universe.GetLength(0);
+            int yLen = universe.GetLength(1);
+            for (int yOffset = -1; yOffset <= 1; yOffset++)
+            {
+                for (int xOffset = -1; xOffset <= 1; xOffset++)
+                {
+                    int xCheck = x + xOffset;
+                    int yCheck = y + yOffset;
+                    // if xOffset and yOffset are both equal to 0 then continue
+                    if (xOffset == 0 && yOffset == 0)
+                        continue;
+                    // if xCheck is less than 0 then continue
+                    if (xCheck < 0)
+                        continue;
+                    // if yCheck is less than 0 then continue
+                    if (yCheck < 0)
+                        continue;
+                    // if xCheck is greater than or equal too xLen then continue
+                    if (xCheck >= xLen)
+                        continue;
+                    // if yCheck is greater than or equal too yLen then continue
+                    if (yCheck >= yLen)
+                        continue ;
+                    if (universe[xCheck, yCheck] == true) count++;
+                }
+            }
+            return count;
+        }
+
         // The event called by the timer every Interval milliseconds.
         private void Timer_Tick(object sender, EventArgs e)
         {
@@ -144,6 +226,37 @@ namespace GOLStartUpTemplate2
             this.Close();
         }
 
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            for (int y = 0; y < universe.GetLength(1); y++)
+            {
+                // Iterate through the universe in the x, left to right
+                for (int x = 0; x < universe.GetLength(0); x++)
+                {
+                    universe [x, y] = false;
+                }
+            }
+            graphicsPanel1.Invalidate();
+        }
+        //play button
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            timer.Enabled = true; // start timer running
+        }
+        // pause button
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+            timer.Enabled=false;
+        }
 
+
+        private void toolStripButton3_Click(object sender, EventArgs e)
+        {
+            
+            //timer.Start();
+            //timer.Interval = 1;
+            //System.Threading.Thread.Sleep(timer.Interval);
+            //timer.Stop();
+        }
     }
 }
