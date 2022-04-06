@@ -87,27 +87,27 @@ namespace GOLStartUpTemplate2
                     if (xCheck < 0)
                     { 
                         xLen =- 1;
-                        continue;
+                        
                     }
                     // if yCheck is less than 0 then set to yLen - 1
                     if (yCheck < 0)
                     {
                         yLen =- 1;
-                        continue;
+                        
 
                     }
                     // if xCheck is greater than or equal too xLen then set to 0
                     if (xCheck >= xLen)
                     {
                         xLen = 0;
-                        continue;
+                        
 
                     }
                     // if yCheck is greater than or equal too yLen then set to 0
                     if (yCheck >= yLen)
                     {
                         yLen = 0;
-                        continue;
+                        
 
                     }
 
@@ -234,9 +234,10 @@ namespace GOLStartUpTemplate2
         {
             this.Close();
         }
-
+        // File Menu New
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            
             for (int y = 0; y < universe.GetLength(1); y++)
             {
                 // Iterate through the universe in the x, left to right
@@ -245,23 +246,27 @@ namespace GOLStartUpTemplate2
                     universe [x, y] = false;
                 }
             }
+            
             graphicsPanel1.Invalidate();
         }
         //play button
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
             timer.Enabled = true; // start timer running
+            graphicsPanel1.Invalidate();
         }
         // pause button
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
             timer.Enabled=false;
+            graphicsPanel1.Invalidate();
         }
 
 
         private void toolStripButton3_Click(object sender, EventArgs e)
         {            
             NextGeneration();
+            graphicsPanel1.Invalidate();
         }
 
         private void finiteToolStripMenuItem_Click(object sender, EventArgs e)
