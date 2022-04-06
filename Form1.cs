@@ -13,7 +13,7 @@ namespace GOLStartUpTemplate2
     public partial class Form1 : Form
     {
         // The universe array
-        bool[,] universe = new bool[5, 5];
+        bool[,] universe = new bool[10, 10];
 
         // Drawing colors
         Color gridColor = Color.Black;
@@ -43,13 +43,13 @@ namespace GOLStartUpTemplate2
                 // Iterate through the universe in the x, left to right
                 for (int x = 0; x < universe.GetLength(0); x++)
                 {
-                    //int count = CountNeighbor
+                    int count = CountNeighborsFinite(x, y);
 
-                    //universe[y, x] = universe[x, y];
+                    universe[y, x] = universe[x, y];
 
                     // Apply the rules
 
-                    //turn in on/off the scratchPad
+                    //turn in on/off the scratchPad - second 2d array
                 }
             }
 
@@ -61,8 +61,13 @@ namespace GOLStartUpTemplate2
 
             // Update status strip generations
             toolStripStatusLabelGenerations.Text = "Generations = " + generations.ToString();
+
+            //Invalidate
+            graphicsPanel1.Invalidate();
         }
 
+
+        //check this again
         // count neighbors toroidal
         private int CountNeighborsToroidal(int x, int y)
         {
@@ -112,6 +117,8 @@ namespace GOLStartUpTemplate2
             return count;
         }
 
+
+        //checck this again 
         // count neighbors finite
         private int CountNeighborsFinite(int x, int y)
         {
@@ -144,6 +151,8 @@ namespace GOLStartUpTemplate2
             }
             return count;
         }
+
+
 
         // The event called by the timer every Interval milliseconds.
         private void Timer_Tick(object sender, EventArgs e)
@@ -251,12 +260,23 @@ namespace GOLStartUpTemplate2
 
 
         private void toolStripButton3_Click(object sender, EventArgs e)
+        {            
+            NextGeneration();
+        }
+
+        private void finiteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
-            //timer.Start();
-            //timer.Interval = 1;
-            //System.Threading.Thread.Sleep(timer.Interval);
-            //timer.Stop();
+            CountNeighborsFinite(5,5);
+        }
+
+        private void toroidalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CountNeighborsToroidal(5, 5);
+        }
+
+        private void gameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
