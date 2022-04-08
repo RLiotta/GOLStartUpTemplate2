@@ -13,8 +13,9 @@ namespace GOLStartUpTemplate2
     public partial class Form1 : Form
     {
         // The universe array
-        bool[,] universe = new bool[10, 10];
-
+        bool[,] universe = new bool[5, 5];
+        //scratchpad
+        bool[,] scratchPad = new bool[5, 5];
         // Drawing colors
         Color gridColor = Color.Black;
         Color cellColor = Color.Gray;
@@ -38,26 +39,95 @@ namespace GOLStartUpTemplate2
         // Calculate the next generation of cells
         private void NextGeneration()
         {
+
             for (int y = 0; y < universe.GetLength(1); y++)
             {
                 // Iterate through the universe in the x, left to right
                 for (int x = 0; x < universe.GetLength(0); x++)
                 {
                     int count = CountNeighborsFinite(x, y);
+                    //int aliveNeighbors = 0;
 
-                    universe[y, x] = universe[x, y];
+
+                     count = CountNeighborsFinite(x, y);
+
+                    //universe[y, x] = scratchPad[y, x];
 
                     // Apply the rules
 
+
+                    //if (universe[y, x] == true && count == 2 || universe[x, y] == true && count == 3)
+                    //{
+                    //    universe[y, x] = true;
+                    //    scratchPad[y, x] = true;
+                    //}
+
+
+
+
+
+                    if (universe[x, y] == true && count < 2)
+                    {
+                        universe[x, y] = false;
+                        scratchPad[x, y] = true;
+                    }
+                    if (universe[x, y] == true && count < 3)
+                    {
+                        universe[x, y] = false;
+                        scratchPad[x, y] = true;
+                    }
+                    if (universe[x, y] == true && count == 2)
+                    {
+                        universe[x, y] = true;
+                        scratchPad[x, y] = false;
+                    }
+                    if (universe[x, y] == true && count == 3)
+                    {
+                        universe[x, y] = true;
+                        scratchPad[x, y] = false;
+                    }
+
                     //turn in on/off the scratchPad - second 2d array
+                    int xLen = scratchPad.GetLength(0);
+                    int yLen = scratchPad.GetLength(1);
+                    for (int yOffset = -1; yOffset <= 1; yOffset++)
+                    {
+                        for (int xOffset = -1; xOffset <= 1; xOffset++)
+                        {
+                            int xCheck = x + xOffset;
+                            int yCheck = y + yOffset;
+                            // if xOffset and yOffset are both equal to 0 then continue
+                            if (xOffset == 0 && yOffset == 0)
+                                continue;
+                            // if xCheck is less than 0 then continue
+                            if (xCheck < 0)
+                                continue;
+                            // if yCheck is less than 0 then continue
+                            if (yCheck < 0)
+                                continue;
+                            // if xCheck is greater than or equal too xLen then continue
+                            if (xCheck >= xLen)
+                                continue;
+                            // if yCheck is greater than or equal too yLen then continue
+                            if (yCheck >= yLen)
+                                continue;
+                            if (universe[xCheck, yCheck] == true) count++;
+                        }
+
+                    }
+
+
                 }
             }
 
             //Copy from scratchPad to universe
             //make sure to clear scratchPad
-
-                    // Increment generation count
-                    generations++;
+            bool[,] temp = universe;
+            universe = scratchPad;
+            scratchPad = temp;
+            
+            // Increment generation count
+            generations++;
 
             // Update status strip generations
             toolStripStatusLabelGenerations.Text = "Generations = " + generations.ToString();
@@ -74,6 +144,7 @@ namespace GOLStartUpTemplate2
             int count = 0;
             int xLen = universe.GetLength(0);
             int yLen = universe.GetLength(1);
+
             for (int yOffset = -1; yOffset <= 1; yOffset++)
             {
                 for (int xOffset = -1; xOffset <= 1; xOffset++)
@@ -85,29 +156,29 @@ namespace GOLStartUpTemplate2
                         continue;
                     // if xCheck is less than 0 then set to xLen - 1
                     if (xCheck < 0)
-                    { 
-                        xLen =- 1;
-                        
+                    {
+                        xLen = -1;
+
                     }
                     // if yCheck is less than 0 then set to yLen - 1
                     if (yCheck < 0)
                     {
-                        yLen =- 1;
-                        
+                        yLen = -1;
+
 
                     }
                     // if xCheck is greater than or equal too xLen then set to 0
                     if (xCheck >= xLen)
                     {
                         xLen = 0;
-                        
+
 
                     }
                     // if yCheck is greater than or equal too yLen then set to 0
                     if (yCheck >= yLen)
                     {
                         yLen = 0;
-                        
+
 
                     }
 
@@ -125,6 +196,8 @@ namespace GOLStartUpTemplate2
             int count = 0;
             int xLen = universe.GetLength(0);
             int yLen = universe.GetLength(1);
+
+            
             for (int yOffset = -1; yOffset <= 1; yOffset++)
             {
                 for (int xOffset = -1; xOffset <= 1; xOffset++)
@@ -133,23 +206,34 @@ namespace GOLStartUpTemplate2
                     int yCheck = y + yOffset;
                     // if xOffset and yOffset are both equal to 0 then continue
                     if (xOffset == 0 && yOffset == 0)
+                    {
                         continue;
+                    }
                     // if xCheck is less than 0 then continue
                     if (xCheck < 0)
+                    {
                         continue;
+                    }
                     // if yCheck is less than 0 then continue
                     if (yCheck < 0)
+                    {
                         continue;
+                    }
                     // if xCheck is greater than or equal too xLen then continue
                     if (xCheck >= xLen)
+                    {
                         continue;
+                    }
                     // if yCheck is greater than or equal too yLen then continue
                     if (yCheck >= yLen)
-                        continue ;
+                    {
+                        continue;
+                    }
                     if (universe[xCheck, yCheck] == true) count++;
                 }
             }
             return count;
+
         }
 
 
@@ -158,6 +242,7 @@ namespace GOLStartUpTemplate2
         private void Timer_Tick(object sender, EventArgs e)
         {
             NextGeneration();
+            graphicsPanel1.Invalidate();
         }
 
         private void graphicsPanel1_Paint(object sender, PaintEventArgs e)
@@ -237,16 +322,17 @@ namespace GOLStartUpTemplate2
         // File Menu New
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
+            generations = 0;
+
             for (int y = 0; y < universe.GetLength(1); y++)
             {
                 // Iterate through the universe in the x, left to right
                 for (int x = 0; x < universe.GetLength(0); x++)
                 {
-                    universe [x, y] = false;
+                    universe[x, y] = false;
                 }
             }
-            
+            //try putting the reset generation count here
             graphicsPanel1.Invalidate();
         }
         //play button
@@ -258,28 +344,35 @@ namespace GOLStartUpTemplate2
         // pause button
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
-            timer.Enabled=false;
+            timer.Enabled = false;
             graphicsPanel1.Invalidate();
         }
 
 
         private void toolStripButton3_Click(object sender, EventArgs e)
-        {            
+        {
             NextGeneration();
             graphicsPanel1.Invalidate();
         }
 
         private void finiteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CountNeighborsFinite(5,5);
+            CountNeighborsFinite(5, 5);
+            graphicsPanel1.Invalidate();
         }
 
         private void toroidalToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CountNeighborsToroidal(5, 5);
+            graphicsPanel1.Invalidate();
         }
 
         private void gameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void newToolStripButton_Click(object sender, EventArgs e)
         {
 
         }
