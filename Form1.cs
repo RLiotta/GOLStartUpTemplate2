@@ -13,9 +13,9 @@ namespace GOLStartUpTemplate2
     public partial class Form1 : Form
     {
         // The universe array
-        bool[,] universe = new bool[5, 5];
+        bool[,] universe = new bool[10, 10];
         //scratchpad
-        bool[,] scratchPad = new bool[5, 5];
+        bool[,] scratchPad = new bool[10, 10];
         // Drawing colors
         Color gridColor = Color.Black;
         Color cellColor = Color.Gray;
@@ -46,77 +46,53 @@ namespace GOLStartUpTemplate2
                 for (int x = 0; x < universe.GetLength(0); x++)
                 {
                     int count = CountNeighborsFinite(x, y);
-                    //int aliveNeighbors = 0;
-
-
-                     count = CountNeighborsFinite(x, y);
-
-                    //universe[y, x] = scratchPad[y, x];
 
                     // Apply the rules
 
 
-                    //if (universe[y, x] == true && count == 2 || universe[x, y] == true && count == 3)
+                    //if (universe[x, y] == true && count <= 2 || universe[x, y] == true && count == 3)
                     //{
-                    //    universe[y, x] = true;
-                    //    scratchPad[y, x] = true;
+                    //    universe[x, y] = true;
+                    //    scratchPad[x, y] = true;
+
                     //}
 
 
-
-
-
+                    //Any living cell in the current universe with less than 2 living neighbors dies in the next generation as if by under-population.
+                    //If a cell meets this criteria in the universe array then make the same cell dead in the scratch pad array.
                     if (universe[x, y] == true && count < 2)
                     {
                         universe[x, y] = false;
-                        scratchPad[x, y] = true;
-                    }
-                    if (universe[x, y] == true && count < 3)
-                    {
-                        universe[x, y] = false;
-                        scratchPad[x, y] = true;
-                    }
-                    if (universe[x, y] == true && count == 2)
-                    {
-                        universe[x, y] = true;
                         scratchPad[x, y] = false;
-                    }
-                    if (universe[x, y] == true && count == 3)
-                    {
-                        universe[x, y] = true;
-                        scratchPad[x, y] = false;
+                        
                     }
 
+                    //Any living cell with more than 3 living neighbors will die in the next generation as if by over-population.
+                    //If so in the universe then kill it in the scratch pad.
+                    if (universe[x, y] == true && count >= 4)
+                    {
+                        scratchPad[x, y] = false;
+                        //universe[x, y] = true;
+                        
+                    }
+                    //Any living cell with 2 or 3 living neighbors will live on into the next generation.
+                    //If this is the case in the universe then the same cell lives in the scratch pad.
+                    if (universe[x, y] == true && count == 2 || universe[x, y] == true && count == 3)
+                    {
+                        //universe[x, y] = true;
+                        scratchPad[x, y] = true;
+                        
+                        
+                    }
+                    //Any dead cell with exactly 3 living neighbors will be born into the next generation as if by reproduction.
+                    //If so in the universe then make that cell alive in the scratch pad.
+                    if (universe[x, y] == false && count == 3)
+                    {
+                        universe[x, y] = true;
+                        scratchPad[x, y] = true;
+                        
+                    }
                     //turn in on/off the scratchPad - second 2d array
-                    int xLen = scratchPad.GetLength(0);
-                    int yLen = scratchPad.GetLength(1);
-                    for (int yOffset = -1; yOffset <= 1; yOffset++)
-                    {
-                        for (int xOffset = -1; xOffset <= 1; xOffset++)
-                        {
-                            int xCheck = x + xOffset;
-                            int yCheck = y + yOffset;
-                            // if xOffset and yOffset are both equal to 0 then continue
-                            if (xOffset == 0 && yOffset == 0)
-                                continue;
-                            // if xCheck is less than 0 then continue
-                            if (xCheck < 0)
-                                continue;
-                            // if yCheck is less than 0 then continue
-                            if (yCheck < 0)
-                                continue;
-                            // if xCheck is greater than or equal too xLen then continue
-                            if (xCheck >= xLen)
-                                continue;
-                            // if yCheck is greater than or equal too yLen then continue
-                            if (yCheck >= yLen)
-                                continue;
-                            if (universe[xCheck, yCheck] == true) count++;
-                        }
-
-                    }
-
-
                 }
             }
 
@@ -135,7 +111,6 @@ namespace GOLStartUpTemplate2
             //Invalidate
             graphicsPanel1.Invalidate();
         }
-
 
         //check this again
         // count neighbors toroidal
@@ -188,8 +163,7 @@ namespace GOLStartUpTemplate2
             return count;
         }
 
-
-        //checck this again 
+        //check this again 
         // count neighbors finite
         private int CountNeighborsFinite(int x, int y)
         {
@@ -204,27 +178,22 @@ namespace GOLStartUpTemplate2
                 {
                     int xCheck = x + xOffset;
                     int yCheck = y + yOffset;
-                    // if xOffset and yOffset are both equal to 0 then continue
                     if (xOffset == 0 && yOffset == 0)
                     {
                         continue;
                     }
-                    // if xCheck is less than 0 then continue
                     if (xCheck < 0)
                     {
                         continue;
                     }
-                    // if yCheck is less than 0 then continue
                     if (yCheck < 0)
                     {
                         continue;
                     }
-                    // if xCheck is greater than or equal too xLen then continue
                     if (xCheck >= xLen)
                     {
                         continue;
                     }
-                    // if yCheck is greater than or equal too yLen then continue
                     if (yCheck >= yLen)
                     {
                         continue;
@@ -236,8 +205,6 @@ namespace GOLStartUpTemplate2
 
         }
 
-
-
         // The event called by the timer every Interval milliseconds.
         private void Timer_Tick(object sender, EventArgs e)
         {
@@ -247,7 +214,7 @@ namespace GOLStartUpTemplate2
 
         private void graphicsPanel1_Paint(object sender, PaintEventArgs e)
         {
-            //floats!!!
+            //use floats to fix scaling 
             // Calculate the width and height of each cell in pixels
             // CELL WIDTH = WINDOW WIDTH / NUMBER OF CELLS IN X
             int cellWidth = graphicsPanel1.ClientSize.Width / universe.GetLength(0);
@@ -357,13 +324,13 @@ namespace GOLStartUpTemplate2
 
         private void finiteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CountNeighborsFinite(5, 5);
+            CountNeighborsFinite(10, 10);
             graphicsPanel1.Invalidate();
         }
 
         private void toroidalToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CountNeighborsToroidal(5, 5);
+            CountNeighborsToroidal(10, 10);
             graphicsPanel1.Invalidate();
         }
 
