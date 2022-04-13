@@ -51,47 +51,69 @@ namespace GOLStartUpTemplate2
                     // Apply the rules
 
 
+                    //if (universe[x, y] == true)
+                    //{
+                    //    if (count >= 2 && count <= 3)
+                    //    {
+                    //        universe[x, y] = true;
+                    //        scratchPad[x, y] = true;
+                    //        ++count;
+                    //    }
+                    //}
+                    //else if (count == 3)
+                    //{
+                    //    scratchPad[x, y] = true;
+                    //    universe[x, y] = true;
+                    //    ++count;
+                    //}
+
+
                     //if (universe[x, y] == true && count <= 2 || universe[x, y] == true && count == 3)
                     //{
                     //    universe[x, y] = true;
                     //    scratchPad[x, y] = true;
 
                     //}
-
-
-                    //Any living cell in the current universe with less than 2 living neighbors dies in the next generation as if by under-population.
-                    //If a cell meets this criteria in the universe array then make the same cell dead in the scratch pad array.
-                    if (universe[x, y] == true && count < 2)
+                    if (universe[x, y] == true)
                     {
-                        //universe[x, y] = true;
-                        scratchPad[x, y] = false;
-                        
-                    }
-                    //Any living cell with more than 3 living neighbors will die in the next generation as if by over-population.
-                    //If so in the universe then kill it in the scratch pad.  ....
-                    if (universe[x, y] == true && count > 3)
-                    {
-                        //universe[x, y] = false;
-                        scratchPad[x, y] = false;
-                        
-                    }
-                    //Any living cell with 2 or 3 living neighbors will live on into the next generation.
-                    //If this is the case in the universe then the same cell lives in the scratch pad.
-                    if (universe[x, y] == true && count == 2 || universe[x, y] == true && count == 3)
-                    {
-                        //universe[x, y] = true;
-                        scratchPad[x, y] = true;
+                        //Any living cell in the current universe with less than 2 living neighbors dies in the next generation as if by under-population.
+                        //If a cell meets this criteria in the universe array then make the same cell dead in the scratch pad array.
+                        if (count < 2)
+                        {
+                            //universe[x, y] = false;
+                            scratchPad[x, y] = false;
+                        }
+                        //Any living cell with more than 3 living neighbors will die in the next generation as if by over-population.
+                        //If so in the universe then kill it in the scratch pad.  ....
+                        if (count > 3)
+                        {
+                            //universe[x, y] = false;
+                            scratchPad[x, y] = false;
+                        }
+                        //Any living cell with 2 or 3 living neighbors will live on into the next generation.
+                        //If this is the case in the universe then the same cell lives in the scratch pad.
+                        if (count == 2 || count == 3)
+                        {
+                            //universe[x, y] = true;
+                            scratchPad[x, y] = true;
+                        }
 
-                        
                     }
                     //Any dead cell with exactly 3 living neighbors will be born into the next generation as if by reproduction.
                     //If so in the universe then make that cell alive in the scratch pad.
-                    if (universe[x, y] == false && count == 3)
+                    if (universe[x, y] == false)
                     {
-                        //universe[x, y] = true;
-                        scratchPad[x, y] = true;
-                        
+
+                        if (count == 3)
+                        {
+                            scratchPad[x, y] = true;
+                            //universe[x, y] = true;
+                        }
                     }
+
+
+
+
                     //turn in on/off the scratchPad - second 2d array
                 }
             }
@@ -101,7 +123,7 @@ namespace GOLStartUpTemplate2
             bool[,] temp = universe;
             universe = scratchPad;
             scratchPad = temp;
-            
+
             // Increment generation count
             generations++;
 
@@ -119,6 +141,7 @@ namespace GOLStartUpTemplate2
             int count = 0;
             int xLen = universe.GetLength(0);
             int yLen = universe.GetLength(1);
+
 
             for (int yOffset = -1; yOffset <= 1; yOffset++)
             {
@@ -176,7 +199,7 @@ namespace GOLStartUpTemplate2
             int xLen = universe.GetLength(0);
             int yLen = universe.GetLength(1);
 
-            
+
             for (int yOffset = -1; yOffset <= 1; yOffset++)
             {
                 for (int xOffset = -1; xOffset <= 1; xOffset++)
@@ -200,7 +223,7 @@ namespace GOLStartUpTemplate2
                     {
                         continue;
                     }
-                    if (yCheck >= yLen )
+                    if (yCheck >= yLen)
                     {
                         continue;
                     }
