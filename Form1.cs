@@ -45,8 +45,9 @@ namespace GOLStartUpTemplate2
                 // Iterate through the universe in the x, left to right
                 for (int x = 0; x < universe.GetLength(0); x++)
                 {
-                    int count = CountNeighborsFinite(x, y);
 
+                    int count = CountNeighborsFinite(x, y);
+                    // CountNeighborsFinite(x, y);   CountNeighborsToroidal(x, y);
                     // Apply the rules
 
 
@@ -62,17 +63,16 @@ namespace GOLStartUpTemplate2
                     //If a cell meets this criteria in the universe array then make the same cell dead in the scratch pad array.
                     if (universe[x, y] == true && count < 2)
                     {
-                        universe[x, y] = false;
+                        //universe[x, y] = true;
                         scratchPad[x, y] = false;
                         
                     }
-
                     //Any living cell with more than 3 living neighbors will die in the next generation as if by over-population.
-                    //If so in the universe then kill it in the scratch pad.
-                    if (universe[x, y] == true && count >= 4)
+                    //If so in the universe then kill it in the scratch pad.  ....
+                    if (universe[x, y] == true && count > 3)
                     {
+                        //universe[x, y] = false;
                         scratchPad[x, y] = false;
-                        //universe[x, y] = true;
                         
                     }
                     //Any living cell with 2 or 3 living neighbors will live on into the next generation.
@@ -81,14 +81,14 @@ namespace GOLStartUpTemplate2
                     {
                         //universe[x, y] = true;
                         scratchPad[x, y] = true;
-                        
+
                         
                     }
                     //Any dead cell with exactly 3 living neighbors will be born into the next generation as if by reproduction.
                     //If so in the universe then make that cell alive in the scratch pad.
                     if (universe[x, y] == false && count == 3)
                     {
-                        universe[x, y] = true;
+                        //universe[x, y] = true;
                         scratchPad[x, y] = true;
                         
                     }
@@ -128,7 +128,9 @@ namespace GOLStartUpTemplate2
                     int yCheck = y + yOffset;
                     // if xOffset and yOffset are both equal to 0 then continue
                     if (xOffset == 0 && yOffset == 0)
+                    {
                         continue;
+                    }
                     // if xCheck is less than 0 then set to xLen - 1
                     if (xCheck < 0)
                     {
@@ -145,19 +147,22 @@ namespace GOLStartUpTemplate2
                     // if xCheck is greater than or equal too xLen then set to 0
                     if (xCheck >= xLen)
                     {
-                        xLen = 0;
+                        xCheck = 0;
 
 
                     }
                     // if yCheck is greater than or equal too yLen then set to 0
                     if (yCheck >= yLen)
                     {
-                        yLen = 0;
+                        yCheck = 0;
 
 
                     }
 
-                    if (universe[xCheck, yCheck] == true) count++;
+                    if (universe[xCheck, yCheck] == true)
+                    {
+                        count++;
+                    }
                 }
             }
             return count;
@@ -178,6 +183,7 @@ namespace GOLStartUpTemplate2
                 {
                     int xCheck = x + xOffset;
                     int yCheck = y + yOffset;
+
                     if (xOffset == 0 && yOffset == 0)
                     {
                         continue;
@@ -194,11 +200,14 @@ namespace GOLStartUpTemplate2
                     {
                         continue;
                     }
-                    if (yCheck >= yLen)
+                    if (yCheck >= yLen )
                     {
                         continue;
                     }
-                    if (universe[xCheck, yCheck] == true) count++;
+                    if (universe[xCheck, yCheck] == true)
+                    {
+                        count++;
+                    }
                 }
             }
             return count;
