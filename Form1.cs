@@ -39,13 +39,13 @@ namespace GOLStartUpTemplate2
         // Calculate the next generation of cells
         private void NextGeneration()
         {
-
+            
             for (int y = 0; y < universe.GetLength(1); y++)
             {
                 // Iterate through the universe in the x, left to right
                 for (int x = 0; x < universe.GetLength(0); x++)
                 {
-
+                    scratchPad[x, y] = false;
                     int count = CountNeighborsFinite(x, y);
                     // CountNeighborsFinite(x, y);   CountNeighborsToroidal(x, y);
                     // Apply the rules
