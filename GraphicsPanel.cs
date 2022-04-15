@@ -15,7 +15,6 @@ namespace GOLStartUpTemplate2
         {
             // Turn on double buffering.
             this.DoubleBuffered = true;
-
             // Allow repainting when the window is resized.
             this.SetStyle(ControlStyles.ResizeRedraw, true);
         }
