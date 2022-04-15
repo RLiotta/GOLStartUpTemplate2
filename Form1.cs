@@ -12,6 +12,7 @@ namespace GOLStartUpTemplate2
 {
     public partial class Form1 : Form
     {
+
         // The universe array
         bool[,] universe = new bool[16, 16];
         //scratchpad
@@ -26,12 +27,16 @@ namespace GOLStartUpTemplate2
         // Generation count
         int generations = 0;
 
+
+
         public Form1()
         {
-            InitializeComponent();
 
+            InitializeComponent();
+            //scalable
+            int x = 50;
             // Setup the timer
-            timer.Interval = 100; // milliseconds
+            timer.Interval = x; // milliseconds
             timer.Tick += Timer_Tick;
             timer.Enabled = false; // start timer running
         }
@@ -126,28 +131,21 @@ namespace GOLStartUpTemplate2
                     else if (xCheck < 0)
                     {
                         xLen = -1;
-
                     }
                     // if yCheck is less than 0 then set to yLen - 1
                     else if (yCheck < 0)
                     {
                         yLen = -1;
-
-
                     }
                     // if xCheck is greater than or equal too xLen then set to 0
                     else if (xCheck >= xLen)
                     {
                         xCheck = 0;
-
-
                     }
                     // if yCheck is greater than or equal too yLen then set to 0
                     else if (yCheck >= yLen)
                     {
                         yCheck = 0;
-
-
                     }
                     else if (universe[xCheck, yCheck] == true)
                     {
@@ -302,25 +300,22 @@ namespace GOLStartUpTemplate2
             }
             //try putting the reset generation count here
             graphicsPanel1.Invalidate();
+            
         }
         //play button
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-            timer.Enabled = true; // start timer running
-            graphicsPanel1.Invalidate();
+            Play();
         }
         // pause button
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
-            timer.Enabled = false;
-            graphicsPanel1.Invalidate();
+            Pause();
         }
-
-
+        //Next Button
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
-            NextGeneration();
-            graphicsPanel1.Invalidate();
+            Next();
         }
 
         private void finiteToolStripMenuItem_Click(object sender, EventArgs e)
@@ -335,20 +330,32 @@ namespace GOLStartUpTemplate2
             graphicsPanel1.Invalidate();
         }
 
-        //play
+        //Play Menu
         private void playToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Play();
+        }
+        //Pause Menu
+        private void pauseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Pause();
+        }
+        //Next Menu
+        private void nextToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Next();
+        }
+        private void Play()
         {
             timer.Enabled = true; // start timer running
             graphicsPanel1.Invalidate();
         }
-
-        private void pauseToolStripMenuItem_Click(object sender, EventArgs e)
+        private void Pause()
         {
-            timer.Enabled = false;
+            timer.Enabled = false; // stop timer running
             graphicsPanel1.Invalidate();
         }
-
-        private void nextToolStripMenuItem_Click(object sender, EventArgs e)
+        private void Next()
         {
             NextGeneration();
             graphicsPanel1.Invalidate();
