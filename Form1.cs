@@ -14,9 +14,9 @@ namespace GOLStartUpTemplate2
     {
 
         // The universe array
-        bool[,] universe = new bool[16, 16];
+        bool[,] universe = new bool[19, 19];
         //scratchpad
-        bool[,] scratchPad = new bool[16, 16];
+        bool[,] scratchPad = new bool[19, 19];
         // Drawing colors
         Color gridColor = Color.DarkCyan;
         Color cellColor = Color.DeepPink;
@@ -31,7 +31,7 @@ namespace GOLStartUpTemplate2
 
         public Form1()
         {
-
+            //game speed
             InitializeComponent();
             //scalable
             int x = 50;
@@ -76,7 +76,6 @@ namespace GOLStartUpTemplate2
                         {
                             scratchPad[x, y] = true;
                         }
-
                     }
                     //Any dead cell with exactly 3 living neighbors will be born into the next generation as if by reproduction.
                     //If so in the universe then make that cell alive in the scratch pad.
@@ -112,9 +111,10 @@ namespace GOLStartUpTemplate2
         private int CountNeighborsToroidal(int x, int y)
         {
             int count = 0;
-            float xLen = universe.GetLength(0);
-            float yLen = universe.GetLength(1);
-            
+            //float xLen = universe.GetLength(0);
+            //float yLen = universe.GetLength(1);
+            float xLen = universe.GetUpperBound(0);
+            float yLen = universe.GetUpperBound(1);
 
             for (int yOffset = -1; yOffset <= 1; yOffset++)
             {
@@ -199,9 +199,7 @@ namespace GOLStartUpTemplate2
                 }
             }
             return count;
-
         }
-
         // The event called by the timer every Interval milliseconds.
         private void Timer_Tick(object sender, EventArgs e)
         {
@@ -209,7 +207,6 @@ namespace GOLStartUpTemplate2
             
             graphicsPanel1.Invalidate();
         }
-
         private void graphicsPanel1_Paint(object sender, PaintEventArgs e)
         {
             //use floats to fix scaling 
@@ -218,13 +215,10 @@ namespace GOLStartUpTemplate2
             float cellWidth = graphicsPanel1.ClientSize.Width / universe.GetLength(0);
             // CELL HEIGHT = WINDOW HEIGHT / NUMBER OF CELLS IN Y
             float cellHeight = graphicsPanel1.ClientSize.Height / universe.GetLength(1);
-
             // A Pen for drawing the grid lines (color, width)
             Pen gridPen = new Pen(gridColor, 1);
-
             // A Brush for filling living cells interiors (color)
             Brush cellBrush = new SolidBrush(cellColor);
-
             // Iterate through the universe in the y, top to bottom
             for (float y = 0; y < universe.GetLength(1); y++)
             {
@@ -249,32 +243,26 @@ namespace GOLStartUpTemplate2
                     e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
                 }
             }
-
             // Cleaning up pens and brushes
             gridPen.Dispose();
             cellBrush.Dispose();
         }
-
         private void graphicsPanel1_MouseClick(object sender, MouseEventArgs e)
         {
             // If the left mouse button was clicked
             if (e.Button == MouseButtons.Left)
             {
                 //floats
-
                 // Calculate the width and height of each cell in pixels
                 float cellWidth = graphicsPanel1.ClientSize.Width / universe.GetLength(0);
                 float cellHeight = graphicsPanel1.ClientSize.Height / universe.GetLength(1);
-
                 // Calculate the cell that was clicked in
                 // CELL X = MOUSE X / CELL WIDTH
                 float x = e.X / cellWidth;
                 // CELL Y = MOUSE Y / CELL HEIGHT
                 float y = e.Y / cellHeight;
-
                 // Toggle the cell's state
                 universe[(int)x, (int)y] = !universe[(int)x, (int)y];
-
                 // Tell Windows you need to repaint
                 graphicsPanel1.Invalidate();
             }
@@ -287,20 +275,18 @@ namespace GOLStartUpTemplate2
         // File Menu New
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            generations = 0;
-            
             for (float y = 0; y < universe.GetLength(1); y++)
             {
                 // Iterate through the universe in the x, left to right
                 for (float x = 0; x < universe.GetLength(0); x++)
                 {
                     universe[(int)x, (int)y] = false;
-
                 }
             }
             //try putting the reset generation count here
-            graphicsPanel1.Invalidate();
+            generations = 0; 
             
+            graphicsPanel1.Invalidate();            
         }
         //play button
         private void toolStripButton1_Click(object sender, EventArgs e)
@@ -317,19 +303,14 @@ namespace GOLStartUpTemplate2
         {
             Next();
         }
-
         private void finiteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CountNeighborsFinite(16, 16);
-            graphicsPanel1.Invalidate();
-        }
 
+        }
         private void toroidalToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CountNeighborsToroidal(16, 16);
-            graphicsPanel1.Invalidate();
-        }
 
+        }
         //Play Menu
         private void playToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -359,6 +340,11 @@ namespace GOLStartUpTemplate2
         {
             NextGeneration();
             graphicsPanel1.Invalidate();
+        }
+        //save menu
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
