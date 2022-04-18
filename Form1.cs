@@ -12,6 +12,9 @@ namespace GOLStartUpTemplate2
 {
     public partial class Form1 : Form
     {
+        
+
+
 
         // The universe array
         bool[,] universe = new bool[19, 19];
@@ -165,9 +168,9 @@ namespace GOLStartUpTemplate2
             float yLen = universe.GetLength(1);
 
 
-            for (int yOffset = -1; yOffset <= 1; yOffset++)
+            for (float yOffset = -1; yOffset <= 1; yOffset++)
             {
-                for (int xOffset = -1; xOffset <= 1; xOffset++)
+                for (float xOffset = -1; xOffset <= 1; xOffset++)
                 {
                     float xCheck = x + xOffset;
                     float yCheck = y + yOffset;
@@ -270,7 +273,7 @@ namespace GOLStartUpTemplate2
         // File menu close
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.Close();
+            this.Close(); 
         }
         // File Menu New
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
