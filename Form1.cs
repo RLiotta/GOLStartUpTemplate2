@@ -42,6 +42,8 @@ namespace GOLStartUpTemplate2
             timer.Interval = x; // milliseconds
             timer.Tick += Timer_Tick;
             timer.Enabled = false; // start timer running
+            //panel back color default
+            graphicsPanel1.BackColor = Properties.Settings.Default.PanelColor;
         }
 
         // Calculate the next generation of cells
@@ -346,6 +348,21 @@ namespace GOLStartUpTemplate2
         }
         //save menu
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void backgroundToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorDialog dlg = new ColorDialog();
+            dlg.Color = Color.Black;
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                graphicsPanel1.BackColor = dlg.Color;
+            }
+        }
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
 
         }
