@@ -364,7 +364,32 @@ namespace GOLStartUpTemplate2
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
+            //update property
+            Properties.Settings.Default.PanelColor = graphicsPanel1.BackColor;
 
+            Properties.Settings.Default.Save();
+        }
+        //Color gridColor = Color.DarkCyan;
+        private void gridToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorDialog dlg = new ColorDialog();
+            dlg.Color = Color.DarkCyan;
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                gridColor = dlg.Color; 
+                graphicsPanel1.Invalidate();
+            }
+        }
+
+        private void cellToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorDialog dlg = new ColorDialog();
+            dlg.Color = Color.DarkCyan;
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                cellColor = dlg.Color;
+                graphicsPanel1.Invalidate();
+            }
         }
     }
 }

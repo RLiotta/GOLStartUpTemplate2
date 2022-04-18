@@ -330,12 +330,14 @@
             this.gridToolStripMenuItem.Name = "gridToolStripMenuItem";
             this.gridToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.gridToolStripMenuItem.Text = "Grid";
+            this.gridToolStripMenuItem.Click += new System.EventHandler(this.gridToolStripMenuItem_Click);
             // 
             // cellToolStripMenuItem
             // 
             this.cellToolStripMenuItem.Name = "cellToolStripMenuItem";
             this.cellToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.cellToolStripMenuItem.Text = "Cell";
+            this.cellToolStripMenuItem.Click += new System.EventHandler(this.cellToolStripMenuItem_Click);
             // 
             // graphicsPanel1
             // 
