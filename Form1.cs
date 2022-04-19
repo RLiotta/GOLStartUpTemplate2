@@ -280,6 +280,7 @@ namespace GOLStartUpTemplate2
         // File Menu New
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            generations = 0; 
             for (float y = 0; y < universe.GetLength(1); y++)
             {
                 // Iterate through the universe in the x, left to right
@@ -289,7 +290,6 @@ namespace GOLStartUpTemplate2
                 }
             }
             //try putting the reset generation count here
-            generations = 0; 
             
             graphicsPanel1.Invalidate();            
         }
@@ -354,6 +354,7 @@ namespace GOLStartUpTemplate2
 
         private void backgroundToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            
             ColorDialog dlg = new ColorDialog();
             dlg.Color = Color.Black;
             if (DialogResult.OK == dlg.ShowDialog())
