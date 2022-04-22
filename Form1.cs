@@ -50,45 +50,45 @@ namespace GOLStartUpTemplate2
         private void NextGeneration()
         {
             
-            for (int y = 0; y < universe.GetLength(1); y++)
+            for (float y = 0; y < universe.GetLength(1); y++)
             {
                 // Iterate through the universe in the x, left to right
-                for (int x = 0; x < universe.GetLength(0); x++)
+                for (float x = 0; x < universe.GetLength(0); x++)
                 {
-                    scratchPad[x, y] = false;
-                    int count = CountNeighborsFinite(x, y);
+                    scratchPad[(int)x, (int)y] = false;
+                    int count = CountNeighborsFinite((int)x, (int)y);
                     //int count = CountNeighborsToroidal(x, y);
                     // CountNeighborsFinite(x, y);   CountNeighborsToroidal(x, y);
                     // Apply the rules
 
-                    if (universe[x, y] == true )
+                    if (universe[(int)x, (int)y] == true )
                     {
                         //Any living cell in the current universe with less than 2 living neighbors dies in the next generation as if by under-population.
                         //If a cell meets this criteria in the universe array then make the same cell dead in the scratch pad array.
                         if (count < 2)
                         {
-                            scratchPad[x, y] = false;
+                            scratchPad[(int)x, (int)y] = false;
                         }
                         //Any living cell with more than 3 living neighbors will die in the next generation as if by over-population.
                         //If so in the universe then kill it in the scratch pad.  ....
                         if (count > 3)
                         {
-                            scratchPad[x, y] = false;
+                            scratchPad[(int)x, (int)y] = false;
                         }
                         //Any living cell with 2 or 3 living neighbors will live on into the next generation.
                         //If this is the case in the universe then the same cell lives in the scratch pad.
                         if (count == 2 || count == 3)
                         {
-                            scratchPad[x, y] = true;
+                            scratchPad[(int)x, (int)y] = true;
                         }
                     }
                     //Any dead cell with exactly 3 living neighbors will be born into the next generation as if by reproduction.
                     //If so in the universe then make that cell alive in the scratch pad.
-                    if (universe[x, y] == false)
+                    if (universe[(int)x, (int)y] == false)
                     {
                         if (count == 3)
                         {
-                            scratchPad[x, y] = true;
+                            scratchPad[(int)x, (int)y] = true;
                         }
                     }
                     //turn in on/off the scratchPad - second 2d array
@@ -280,7 +280,12 @@ namespace GOLStartUpTemplate2
         // File Menu New
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            generations = 0; 
+            NewGame();
+          
+        }
+        private void NewGame()
+        {
+            generations = 0;
             for (float y = 0; y < universe.GetLength(1); y++)
             {
                 // Iterate through the universe in the x, left to right
@@ -290,8 +295,8 @@ namespace GOLStartUpTemplate2
                 }
             }
             //try putting the reset generation count here
-            
-            graphicsPanel1.Invalidate();            
+
+            graphicsPanel1.Invalidate();
         }
         //play button
         private void toolStripButton1_Click(object sender, EventArgs e)
@@ -351,16 +356,20 @@ namespace GOLStartUpTemplate2
         {
 
         }
-
-        private void backgroundToolStripMenuItem_Click(object sender, EventArgs e)
+        //color background
+        private void ColorBackground()
         {
-            
             ColorDialog dlg = new ColorDialog();
             dlg.Color = Color.Black;
             if (DialogResult.OK == dlg.ShowDialog())
             {
                 graphicsPanel1.BackColor = dlg.Color;
             }
+        }
+        private void backgroundToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
+            ColorBackground();
         }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
@@ -370,25 +379,105 @@ namespace GOLStartUpTemplate2
 
             Properties.Settings.Default.Save();
         }
-        //Color gridColor = Color.DarkCyan;
-        private void gridToolStripMenuItem_Click(object sender, EventArgs e)
+        //Color gridColor 
+        private void ColorGrid()
         {
             ColorDialog dlg = new ColorDialog();
             dlg.Color = Color.DarkCyan;
             if (DialogResult.OK == dlg.ShowDialog())
             {
-                gridColor = dlg.Color; 
+                gridColor = dlg.Color;
                 graphicsPanel1.Invalidate();
             }
         }
-
-        private void cellToolStripMenuItem_Click(object sender, EventArgs e)
+        private void gridToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorGrid();
+        }
+        //Color Cell
+        private void ColorCell()
         {
             ColorDialog dlg = new ColorDialog();
             dlg.Color = Color.DarkCyan;
             if (DialogResult.OK == dlg.ShowDialog())
             {
                 cellColor = dlg.Color;
+                graphicsPanel1.Invalidate();
+            }
+        }
+        private void cellToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorCell();
+        }
+        private void Randomize()
+        {
+
+            Random rand = new Random();
+            for (int y = 0; y < universe.GetLength(1); y++)
+            {
+                // Iterate through the universe in the x, left to right
+                for (int x = 0; x < universe.GetLength(0); x++)
+                {
+
+                    if (rand.Next(0, 4) == 0)
+                    {
+                        universe[x, y] = true;
+
+                    }
+                }
+            }
+            graphicsPanel1.Invalidate();
+        }
+        private void RandomizeSeed(int seed)
+        {
+            
+            Random rand = new Random(seed);
+            for (int y = 0; y < universe.GetLength(1); y++)
+            {
+                // Iterate through the universe in the x, left to right
+                for (int x = 0; x < universe.GetLength(0); x++)
+                {
+                    
+                    if (rand.Next(0,4) == 0)
+                    {
+                        universe[x, y] = true;
+                        
+                    }
+                }
+            }
+            graphicsPanel1.Invalidate();
+        }
+
+        private void randomFromTimeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
+            Randomize();
+        }
+        //right clicky
+        private void backgroundToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            ColorBackground();
+        }
+
+        private void gridToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            ColorGrid();
+        }
+
+        private void cellToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            ColorCell();
+        }
+
+        private void randomFromSeedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int seed =0;
+            ModalDialog dlg = new ModalDialog();
+            dlg.Seed = seed;
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                seed = dlg.Seed;
+                RandomizeSeed(seed);
                 graphicsPanel1.Invalidate();
             }
         }
