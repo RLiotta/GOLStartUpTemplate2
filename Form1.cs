@@ -12,7 +12,7 @@ namespace GOLStartUpTemplate2
 {
     public partial class Form1 : Form
     {
-
+        //INITIALIZATIONS
         #region INITIALIZATIONS
         // The universe array
         bool[,] universe = new bool[19, 19];
@@ -21,25 +21,20 @@ namespace GOLStartUpTemplate2
         // Drawing colors
         Color gridColor = Color.DarkCyan;
         Color cellColor = Color.DeepPink;
-
         // The Timer class
         Timer timer = new Timer();
-
         // Generation count
         int generations = 0;
         //int count;
         int alive = 0;
         int gameSpeed = 50;
-
         #endregion
-        #region NEXTGEN AND GAME SIZE
 
+        //NEXTGEN AND GAME SIZE
+        #region NEXTGEN AND GAME SIZE
         public Form1()
         {
-
-            //game speed
             InitializeComponent();
-
             // Setup the timer
             timer.Interval = gameSpeed; // milliseconds
             timer.Tick += Timer_Tick;
@@ -51,11 +46,9 @@ namespace GOLStartUpTemplate2
             cellColor = Properties.Settings.Default.CellColor;
             //graphicsPanel1.
         }
-
         // Calculate the next generation of cells
         private void NextGeneration()
         {
-
             for (float y = 0; y < universe.GetLength(1); y++)
             {
                 // Iterate through the universe in the x, left to right
@@ -63,12 +56,7 @@ namespace GOLStartUpTemplate2
                 {
                     scratchPad[(int)x, (int)y] = false;
                     int count = CountNeighborsFinite((int)x, (int)y);
-
-
-                    //int count = CountNeighborsToroidal(x, y);
-                    // CountNeighborsFinite(x, y);   CountNeighborsToroidal(x, y);
                     // Apply the rules
-
                     if (universe[(int)x, (int)y] == true)
                     {
                         //Any living cell in the current universe with less than 2 living neighbors dies in the next generation as if by under-population.
@@ -99,34 +87,28 @@ namespace GOLStartUpTemplate2
                             scratchPad[(int)x, (int)y] = true;
                         }
                     }
-
                     //turn in on/off the scratchPad - second 2d array
-
-
                 }
             }
-
             //Copy from scratchPad to universe
             //make sure to clear scratchPad
             bool[,] temp = universe;
             universe = scratchPad;
             scratchPad = temp;
-
             // Increment generation count
             generations++;
-
             // Update status strip generations
             toolStripStatusLabelGenerations.Text = "Generations = " + generations.ToString();
-
+            //THIS WOULD BE MY ALIVE COUNT... IF I HAD ONE!!!!!
             toolStripStatusLabelAlive.Text = "Alive = " + alive.ToString();
             //Invalidate
             graphicsPanel1.Invalidate();
         }
-
         #endregion
+
+        //NEIGHBORS
         #region NEIGHBORS
-        //check this again
-        // count neighbors toroidal
+        // count neighbors toroidal... WONKY
         private int CountNeighborsToroidal(int x, int y)
         {
             int count = 0;
@@ -134,7 +116,6 @@ namespace GOLStartUpTemplate2
             //float yLen = universe.GetLength(1);
             float xLen = universe.GetUpperBound(0);
             float yLen = universe.GetUpperBound(1);
-
             for (int yOffset = -1; yOffset <= 1; yOffset++)
             {
                 for (int xOffset = -1; xOffset <= 1; xOffset++)
@@ -174,23 +155,18 @@ namespace GOLStartUpTemplate2
             }
             return count;
         }
-
-        //check this again 
         // count neighbors finite
         private int CountNeighborsFinite(int x, int y)
         {
             int count = 0;
             float xLen = universe.GetLength(0);
             float yLen = universe.GetLength(1);
-
-
             for (float yOffset = -1; yOffset <= 1; yOffset++)
             {
                 for (float xOffset = -1; xOffset <= 1; xOffset++)
                 {
                     float xCheck = x + xOffset;
                     float yCheck = y + yOffset;
-
                     if (xOffset == 0 && yOffset == 0)
                     {
                         continue;
@@ -219,13 +195,25 @@ namespace GOLStartUpTemplate2
             }
             return count;
         }
-        // The event called by the timer every Interval milliseconds. 
+        #region BUTTONS
+        private void finiteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void toroidalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
         #endregion
-        #region GRAPHICS PANEL STUFFS
+
+        #endregion
+
+        //GRAPHICS PANEL
+        #region GRAPHICS PANEL
+        // The event called by the timer every Interval milliseconds. 
         private void Timer_Tick(object sender, EventArgs e)
         {
             NextGeneration();
-
             graphicsPanel1.Invalidate();
         }
         private void graphicsPanel1_Paint(object sender, PaintEventArgs e)
@@ -253,13 +241,11 @@ namespace GOLStartUpTemplate2
                     cellRect.Y = y * cellHeight;
                     cellRect.Width = cellWidth;
                     cellRect.Height = cellHeight;
-
                     // Fill the cell with a brush if alive
                     if (universe[(int)x, (int)y] == true)
                     {
                         e.Graphics.FillRectangle(cellBrush, cellRect);
                     }
-
                     // Outline the cell with a pen
                     e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
                 }
@@ -289,19 +275,9 @@ namespace GOLStartUpTemplate2
             }
         }
         #endregion
-        #region METHODS AND STUFFS
 
-        // File menu close
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-        // File Menu New
-        private void newToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            NewGame();
-
-        }
+        //NEW GAME
+        #region NEW GAME
         private void NewGame()
         {
             generations = 0;
@@ -313,11 +289,35 @@ namespace GOLStartUpTemplate2
                     universe[(int)x, (int)y] = false;
                 }
             }
-            //try putting the reset generation count here
-
             graphicsPanel1.Invalidate();
         }
-        #region Action Buttons
+        #region BUTTONS
+        // File Menu New
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NewGame();
+        }
+        #endregion
+        #endregion
+
+        //CONTROLS
+        #region CONTROLS
+        private void Play()
+        {
+            timer.Enabled = true; // start timer running
+            graphicsPanel1.Invalidate();
+        }
+        private void Pause()
+        {
+            timer.Enabled = false; // stop timer running
+            graphicsPanel1.Invalidate();
+        }
+        private void Next()
+        {
+            NextGeneration();
+            graphicsPanel1.Invalidate();
+        }
+        #region BUTTONS
         //play button
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
@@ -333,14 +333,7 @@ namespace GOLStartUpTemplate2
         {
             Next();
         }
-        private void finiteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
 
-        }
-        private void toroidalToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
         //Play Menu
         private void playToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -356,27 +349,11 @@ namespace GOLStartUpTemplate2
         {
             Next();
         }
-        private void Play()
-        {
-            timer.Enabled = true; // start timer running
-            graphicsPanel1.Invalidate();
-        }
-        private void Pause()
-        {
-            timer.Enabled = false; // stop timer running
-            graphicsPanel1.Invalidate();
-        }
-        private void Next()
-        {
-            NextGeneration();
-            graphicsPanel1.Invalidate();
-        } 
         #endregion
-        //save menu
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+        #endregion
 
-        }
+        //SAVING
+        #region SAVING
         //save on close
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
@@ -386,6 +363,22 @@ namespace GOLStartUpTemplate2
             Properties.Settings.Default.CellColor = cellColor;
             Properties.Settings.Default.Save();
         }
+        #region BUTTONS
+        // File menu close
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+        //save menu
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+        #endregion
+        #endregion
+
+        //Color
+        #region COLOR METHODS
         //color background
         private void ColorBackground()
         {
@@ -416,6 +409,7 @@ namespace GOLStartUpTemplate2
                 graphicsPanel1.Invalidate();
             }
         }
+        #region BUTTONS
         private void backgroundToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
@@ -432,6 +426,26 @@ namespace GOLStartUpTemplate2
         {
             ColorCell();
         }
+        //right clicky colors
+        private void backgroundToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            ColorBackground();
+        }
+        //right clicky colors
+        private void gridToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            ColorGrid();
+        }
+        //right clicky colors
+        private void cellToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            ColorCell();
+        }
+        #endregion
+        #endregion
+
+        //Randomize
+        #region RANDOMIZE
         private void Randomize()
         {
             generations = 0;
@@ -470,34 +484,6 @@ namespace GOLStartUpTemplate2
             }
             graphicsPanel1.Invalidate();
         }
-        // random form tool strip
-        private void randomFromTimeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-            Randomize();
-        }
-        #region Right Clicky
-        //right clicky colors
-        private void backgroundToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            ColorBackground();
-        }
-        //right clicky colors
-        private void gridToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            ColorGrid();
-        }
-        //right clicky colors
-        private void cellToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            ColorCell();
-        }
-        ////right clicky random seed
-        private void randomFromSeedToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SetRandomSeed();
-        } 
-        #endregion
         private void SetRandomSeed()
         {
             generations = 0;
@@ -512,11 +498,24 @@ namespace GOLStartUpTemplate2
                 graphicsPanel1.Invalidate();
             }
         }
-        //set gamespeed
-        private void speedToolStripMenuItem_Click(object sender, EventArgs e)
+        #region BUTTONS
+        // random form tool strip
+        private void randomFromTimeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SetSpeed();
+
+            Randomize();
         }
+        //right clicky random seed
+        private void randomFromSeedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetRandomSeed();
+        }
+        #endregion
+        #endregion
+
+        //Game Speed
+        #region GAME SPEED
+        //set gamespeed
         private void SetSpeed()
         {
             int gameSpeed = 50;
@@ -531,12 +530,19 @@ namespace GOLStartUpTemplate2
                 graphicsPanel1.Invalidate();
             }
         }
-
+        #region BUTTONS
+        private void speedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetSpeed();
+        }
         private void speedToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             SetSpeed();
-        } 
+        }
         #endregion
+        // end?
+        #endregion
+
     }
 }
 
