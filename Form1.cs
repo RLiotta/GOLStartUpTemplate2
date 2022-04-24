@@ -13,9 +13,7 @@ namespace GOLStartUpTemplate2
     public partial class Form1 : Form
     {
 
-
-
-
+        #region INITIALIZATIONS
         // The universe array
         bool[,] universe = new bool[19, 19];
         //scratchpad
@@ -33,6 +31,8 @@ namespace GOLStartUpTemplate2
         int alive = 0;
         int gameSpeed = 50;
 
+        #endregion
+        #region NEXTGEN AND GAME SIZE
 
         public Form1()
         {
@@ -41,7 +41,7 @@ namespace GOLStartUpTemplate2
             InitializeComponent();
 
             // Setup the timer
-            timer.Interval = setSpeed(gameSpeed); // milliseconds
+            timer.Interval = gameSpeed; // milliseconds
             timer.Tick += Timer_Tick;
             timer.Enabled = false; // start timer running
             //panel back color default
@@ -119,6 +119,8 @@ namespace GOLStartUpTemplate2
             graphicsPanel1.Invalidate();
         }
 
+        #endregion
+        #region NEIGHBORS
         //check this again
         // count neighbors toroidal
         private int CountNeighborsToroidal(int x, int y)
@@ -213,7 +215,9 @@ namespace GOLStartUpTemplate2
             }
             return count;
         }
-        // The event called by the timer every Interval milliseconds.
+        // The event called by the timer every Interval milliseconds. 
+        #endregion
+        #region GRAPHICS PANEL STUFFS
         private void Timer_Tick(object sender, EventArgs e)
         {
             NextGeneration();
@@ -280,6 +284,9 @@ namespace GOLStartUpTemplate2
                 graphicsPanel1.Invalidate();
             }
         }
+        #endregion
+        #region METHODS AND STUFFS
+
         // File menu close
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -476,8 +483,12 @@ namespace GOLStartUpTemplate2
         {
             ColorCell();
         }
-
+        //set random seed
         private void randomFromSeedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetRandomSeed();
+        }
+        private void SetRandomSeed()
         {
             generations = 0;
 
@@ -491,8 +502,12 @@ namespace GOLStartUpTemplate2
                 graphicsPanel1.Invalidate();
             }
         }
-        //gamespeed
+        //set gamespeed
         private void speedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetSpeed();
+        }
+        private void SetSpeed()
         {
             int gameSpeed = 50;
             ModalDialog dlg = new ModalDialog();
@@ -507,14 +522,11 @@ namespace GOLStartUpTemplate2
             }
         }
 
-        int setSpeed(int gameSpeed)
+        private void speedToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-
-            return gameSpeed;
-
-        }
-
-
+            SetSpeed();
+        } 
+        #endregion
     }
 }
 
