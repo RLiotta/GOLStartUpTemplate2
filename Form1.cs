@@ -12,7 +12,7 @@ namespace GOLStartUpTemplate2
 {
     public partial class Form1 : Form
     {
-        
+
 
 
 
@@ -29,17 +29,19 @@ namespace GOLStartUpTemplate2
 
         // Generation count
         int generations = 0;
-
+        //int count;
+        int alive = 0;
+        int gameSpeed = 50;
 
 
         public Form1()
         {
+
             //game speed
             InitializeComponent();
-            //scalable
-            int x = 50;
+
             // Setup the timer
-            timer.Interval = x; // milliseconds
+            timer.Interval = setSpeed(gameSpeed); // milliseconds
             timer.Tick += Timer_Tick;
             timer.Enabled = false; // start timer running
             //panel back color default
@@ -49,7 +51,7 @@ namespace GOLStartUpTemplate2
         // Calculate the next generation of cells
         private void NextGeneration()
         {
-            
+
             for (float y = 0; y < universe.GetLength(1); y++)
             {
                 // Iterate through the universe in the x, left to right
@@ -57,11 +59,13 @@ namespace GOLStartUpTemplate2
                 {
                     scratchPad[(int)x, (int)y] = false;
                     int count = CountNeighborsFinite((int)x, (int)y);
+
+
                     //int count = CountNeighborsToroidal(x, y);
                     // CountNeighborsFinite(x, y);   CountNeighborsToroidal(x, y);
                     // Apply the rules
 
-                    if (universe[(int)x, (int)y] == true )
+                    if (universe[(int)x, (int)y] == true)
                     {
                         //Any living cell in the current universe with less than 2 living neighbors dies in the next generation as if by under-population.
                         //If a cell meets this criteria in the universe array then make the same cell dead in the scratch pad array.
@@ -91,7 +95,10 @@ namespace GOLStartUpTemplate2
                             scratchPad[(int)x, (int)y] = true;
                         }
                     }
+
                     //turn in on/off the scratchPad - second 2d array
+
+
                 }
             }
 
@@ -107,6 +114,7 @@ namespace GOLStartUpTemplate2
             // Update status strip generations
             toolStripStatusLabelGenerations.Text = "Generations = " + generations.ToString();
 
+            toolStripStatusLabelAlive.Text = "Alive = " + alive.ToString();
             //Invalidate
             graphicsPanel1.Invalidate();
         }
@@ -209,7 +217,7 @@ namespace GOLStartUpTemplate2
         private void Timer_Tick(object sender, EventArgs e)
         {
             NextGeneration();
-            
+
             graphicsPanel1.Invalidate();
         }
         private void graphicsPanel1_Paint(object sender, PaintEventArgs e)
@@ -275,13 +283,13 @@ namespace GOLStartUpTemplate2
         // File menu close
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.Close(); 
+            this.Close();
         }
         // File Menu New
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             NewGame();
-          
+
         }
         private void NewGame()
         {
@@ -368,7 +376,7 @@ namespace GOLStartUpTemplate2
         }
         private void backgroundToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
+
             ColorBackground();
         }
 
@@ -411,7 +419,7 @@ namespace GOLStartUpTemplate2
         }
         private void Randomize()
         {
-
+            generations = 0;
             Random rand = new Random();
             for (int y = 0; y < universe.GetLength(1); y++)
             {
@@ -430,27 +438,27 @@ namespace GOLStartUpTemplate2
         }
         private void RandomizeSeed(int seed)
         {
-            
+            generations = 0;
             Random rand = new Random(seed);
             for (int y = 0; y < universe.GetLength(1); y++)
             {
                 // Iterate through the universe in the x, left to right
                 for (int x = 0; x < universe.GetLength(0); x++)
                 {
-                    
-                    if (rand.Next(0,4) == 0)
+
+                    if (rand.Next(0, 4) == 0)
                     {
                         universe[x, y] = true;
-                        
+
                     }
                 }
             }
             graphicsPanel1.Invalidate();
         }
-
+        // random form tool strip
         private void randomFromTimeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
+
             Randomize();
         }
         //right clicky
@@ -458,12 +466,12 @@ namespace GOLStartUpTemplate2
         {
             ColorBackground();
         }
-
+        //right clicky
         private void gridToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             ColorGrid();
         }
-
+        //right clicky
         private void cellToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             ColorCell();
@@ -471,7 +479,9 @@ namespace GOLStartUpTemplate2
 
         private void randomFromSeedToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            int seed =0;
+            generations = 0;
+
+            int seed = 0;
             ModalDialog dlg = new ModalDialog();
             dlg.Seed = seed;
             if (DialogResult.OK == dlg.ShowDialog())
@@ -481,6 +491,30 @@ namespace GOLStartUpTemplate2
                 graphicsPanel1.Invalidate();
             }
         }
+        //gamespeed
+        private void speedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int gameSpeed = 50;
+            ModalDialog dlg = new ModalDialog();
+            dlg.GameSpeed = gameSpeed;
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+
+                gameSpeed = dlg.GameSpeed;
+
+                timer.Interval = gameSpeed;
+                graphicsPanel1.Invalidate();
+            }
+        }
+
+        int setSpeed(int gameSpeed)
+        {
+
+            return gameSpeed;
+
+        }
+
+
     }
 }
 

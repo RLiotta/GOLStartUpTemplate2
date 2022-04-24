@@ -33,5 +33,10 @@ namespace GOLStartUpTemplate2
                 numericUpDown1.Value = value;
             }
         }
+        public int GameSpeed
+        {
+            get { return (int)numericUpDown1.Value; }
+            set { numericUpDown1.Value = value; }
+        }
     }
 }
