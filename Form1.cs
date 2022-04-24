@@ -45,7 +45,11 @@ namespace GOLStartUpTemplate2
             timer.Tick += Timer_Tick;
             timer.Enabled = false; // start timer running
             //panel back color default
+            //reding porperty
             graphicsPanel1.BackColor = Properties.Settings.Default.PanelColor;
+            gridColor = Properties.Settings.Default.GridColor;
+            cellColor = Properties.Settings.Default.CellColor;
+            //graphicsPanel1.
         }
 
         // Calculate the next generation of cells
@@ -313,6 +317,7 @@ namespace GOLStartUpTemplate2
 
             graphicsPanel1.Invalidate();
         }
+        #region Action Buttons
         //play button
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
@@ -365,11 +370,21 @@ namespace GOLStartUpTemplate2
         {
             NextGeneration();
             graphicsPanel1.Invalidate();
-        }
+        } 
+        #endregion
         //save menu
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+        }
+        //save on close
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            //update property
+            Properties.Settings.Default.PanelColor = graphicsPanel1.BackColor;
+            Properties.Settings.Default.GridColor = gridColor;
+            Properties.Settings.Default.CellColor = cellColor;
+            Properties.Settings.Default.Save();
         }
         //color background
         private void ColorBackground()
@@ -381,20 +396,6 @@ namespace GOLStartUpTemplate2
                 graphicsPanel1.BackColor = dlg.Color;
             }
         }
-        private void backgroundToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-            ColorBackground();
-        }
-
-        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            //update property
-            Properties.Settings.Default.PanelColor = graphicsPanel1.BackColor;
-
-            Properties.Settings.Default.Save();
-        }
-        //Color gridColor 
         private void ColorGrid()
         {
             ColorDialog dlg = new ColorDialog();
@@ -405,11 +406,6 @@ namespace GOLStartUpTemplate2
                 graphicsPanel1.Invalidate();
             }
         }
-        private void gridToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ColorGrid();
-        }
-        //Color Cell
         private void ColorCell()
         {
             ColorDialog dlg = new ColorDialog();
@@ -420,6 +416,18 @@ namespace GOLStartUpTemplate2
                 graphicsPanel1.Invalidate();
             }
         }
+        private void backgroundToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            ColorBackground();
+        }
+        //Color gridColor 
+        private void gridToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorGrid();
+        }
+        //Color Cell
+
         private void cellToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ColorCell();
@@ -468,26 +476,28 @@ namespace GOLStartUpTemplate2
 
             Randomize();
         }
-        //right clicky
+        #region Right Clicky
+        //right clicky colors
         private void backgroundToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             ColorBackground();
         }
-        //right clicky
+        //right clicky colors
         private void gridToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             ColorGrid();
         }
-        //right clicky
+        //right clicky colors
         private void cellToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             ColorCell();
         }
-        //set random seed
+        ////right clicky random seed
         private void randomFromSeedToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SetRandomSeed();
-        }
+        } 
+        #endregion
         private void SetRandomSeed()
         {
             generations = 0;
