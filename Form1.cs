@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +19,8 @@ namespace GOLStartUpTemplate2
         bool[,] universe = new bool[19, 19];
         //scratchpad
         bool[,] scratchPad = new bool[19, 19];
+
+
         // Drawing colors
         Color gridColor = Color.DarkCyan;
         Color cellColor = Color.DeepPink;
@@ -28,8 +31,10 @@ namespace GOLStartUpTemplate2
         //int count;
         int alive = 0;
         int gameSpeed = 50;
+        int count;
+        bool isHUDvisible = false;
+        bool isFinite = true;
         #endregion
-
         //NEXTGEN AND GAME SIZE
         #region NEXTGEN AND GAME SIZE
         public Form1()
@@ -49,13 +54,22 @@ namespace GOLStartUpTemplate2
         // Calculate the next generation of cells
         private void NextGeneration()
         {
+
             for (float y = 0; y < universe.GetLength(1); y++)
             {
                 // Iterate through the universe in the x, left to right
                 for (float x = 0; x < universe.GetLength(0); x++)
                 {
                     scratchPad[(int)x, (int)y] = false;
-                    int count = CountNeighborsFinite((int)x, (int)y);
+                    if (isFinite == true)
+                    {
+                         count = CountNeighborsFinite((int)x, (int)y);
+                    }
+                    else
+                    {
+                         count = CountNeighborsToroidal((int)x, (int)y);
+                    }
+                    
                     // Apply the rules
                     if (universe[(int)x, (int)y] == true)
                     {
@@ -96,11 +110,13 @@ namespace GOLStartUpTemplate2
             universe = scratchPad;
             scratchPad = temp;
             // Increment generation count
+            
             generations++;
             // Update status strip generations
             toolStripStatusLabelGenerations.Text = "Generations = " + generations.ToString();
             //THIS WOULD BE MY ALIVE COUNT... IF I HAD ONE!!!!!
             toolStripStatusLabelAlive.Text = "Alive = " + alive.ToString();
+
             //Invalidate
             graphicsPanel1.Invalidate();
         }
@@ -114,8 +130,8 @@ namespace GOLStartUpTemplate2
             int count = 0;
             //float xLen = universe.GetLength(0);
             //float yLen = universe.GetLength(1);
-            float xLen = universe.GetUpperBound(0);
-            float yLen = universe.GetUpperBound(1);
+            int xLen = universe.GetLength(0);
+            int yLen = universe.GetLength(1);
             for (int yOffset = -1; yOffset <= 1; yOffset++)
             {
                 for (int xOffset = -1; xOffset <= 1; xOffset++)
@@ -128,29 +144,27 @@ namespace GOLStartUpTemplate2
                         continue;
                     }
                     // if xCheck is less than 0 then set to xLen - 1
-                    else if (xCheck < 0)
+                    if (xCheck < 0)
                     {
                         xLen = -1;
                     }
                     // if yCheck is less than 0 then set to yLen - 1
-                    else if (yCheck < 0)
+                    if (yCheck < 0)
                     {
                         yLen = -1;
                     }
                     // if xCheck is greater than or equal too xLen then set to 0
-                    else if (xCheck >= xLen)
+                    if (xCheck >= xLen)
                     {
                         xCheck = 0;
                     }
                     // if yCheck is greater than or equal too yLen then set to 0
-                    else if (yCheck >= yLen)
+                    if (yCheck >= yLen)
                     {
                         yCheck = 0;
                     }
-                    else if (universe[xCheck, yCheck] == true)
-                    {
-                        count++;
-                    }
+                    if (universe[xCheck, yCheck] == true) count++;
+
                 }
             }
             return count;
@@ -198,11 +212,11 @@ namespace GOLStartUpTemplate2
         #region BUTTONS
         private void finiteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            isFinite = true;
         }
         private void toroidalToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            isFinite= false;
         }
         #endregion
 
@@ -280,6 +294,7 @@ namespace GOLStartUpTemplate2
         #region NEW GAME
         private void NewGame()
         {
+            timer.Dispose();
             generations = 0;
             for (float y = 0; y < universe.GetLength(1); y++)
             {
@@ -288,8 +303,8 @@ namespace GOLStartUpTemplate2
                 {
                     universe[(int)x, (int)y] = false;
                 }
-            }
             graphicsPanel1.Invalidate();
+            }
         }
         #region BUTTONS
         // File Menu New
@@ -309,6 +324,7 @@ namespace GOLStartUpTemplate2
         }
         private void Pause()
         {
+            
             timer.Enabled = false; // stop timer running
             graphicsPanel1.Invalidate();
         }
@@ -373,6 +389,12 @@ namespace GOLStartUpTemplate2
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+        }
+        //save as
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            
         }
         #endregion
         #endregion
@@ -523,9 +545,7 @@ namespace GOLStartUpTemplate2
             dlg.GameSpeed = gameSpeed;
             if (DialogResult.OK == dlg.ShowDialog())
             {
-
                 gameSpeed = dlg.GameSpeed;
-
                 timer.Interval = gameSpeed;
                 graphicsPanel1.Invalidate();
             }
@@ -542,6 +562,7 @@ namespace GOLStartUpTemplate2
         #endregion
         // end?
         #endregion
+
 
     }
 }
