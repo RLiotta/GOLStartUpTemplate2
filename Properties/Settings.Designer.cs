@@ -58,5 +58,16 @@ namespace GOLStartUpTemplate2.Properties {
                 this["CellColor"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public int GameSpeed {
+            get {
+                return ((int)(this["GameSpeed"]));
+            }
+            set {
+                this["GameSpeed"] = value;
+            }
+        }
     }
 }

@@ -18,12 +18,9 @@ namespace GOLStartUpTemplate2
 
 
         // The universe array
-        bool[,] universe = new bool[5, 5];
+        bool[,] universe = new bool[19, 19];
         //scratchpad
-        bool[,] scratchPad = new bool[5, 5];
-
-
-
+        bool[,] scratchPad = new bool[19, 19];
         // Drawing colors
         Color gridColor = Color.DarkCyan;
         Color cellColor = Color.DeepPink;
@@ -33,13 +30,12 @@ namespace GOLStartUpTemplate2
         int generations = 0;
         //int count;
         int alive = 0;
-        int gameSpeed = 50;
+        int gameSpeed = 100;
         int count;
         //bool isHUDvisible = false;
         bool isFinite = true;
         bool counting = true;
         #endregion
-
         //GRAPHICS PANEL
         #region GRAPHICS PANEL
         // The event called by the timer every Interval milliseconds. 
@@ -50,7 +46,7 @@ namespace GOLStartUpTemplate2
         }
         private void graphicsPanel1_Paint(object sender, PaintEventArgs e)
         {
-            Font font = new Font("Arial", 20f);
+            Font font = new Font("Arial", 8f);
             StringFormat stringFormat = new StringFormat();
             stringFormat.Alignment = StringAlignment.Center;
             stringFormat.LineAlignment = StringAlignment.Center;
@@ -92,7 +88,7 @@ namespace GOLStartUpTemplate2
                         //stringFormat.Alignment = StringAlignment.Center;
                         //stringFormat.LineAlignment = StringAlignment.Center;
 
-                        
+
                         if (isFinite == true)
                         {
                             count = CountNeighborsFinite((int)x, (int)y);
@@ -146,7 +142,7 @@ namespace GOLStartUpTemplate2
         {
             InitializeComponent();
             // Setup the timer
-            timer.Interval = gameSpeed; // milliseconds
+            gameSpeed = timer.Interval; // milliseconds
             timer.Tick += Timer_Tick;
             timer.Enabled = false; // start timer running
             //panel back color default
@@ -154,6 +150,7 @@ namespace GOLStartUpTemplate2
             graphicsPanel1.BackColor = Properties.Settings.Default.PanelColor;
             gridColor = Properties.Settings.Default.GridColor;
             cellColor = Properties.Settings.Default.CellColor;
+            gameSpeed = Properties.Settings.Default.GameSpeed;
             //graphicsPanel1.
         }
         // Calculate the next generation of cells
@@ -168,13 +165,15 @@ namespace GOLStartUpTemplate2
                     scratchPad[(int)x, (int)y] = false;
                     if (isFinite == true)
                     {
-                         count = CountNeighborsFinite((int)x, (int)y);
+                        count = CountNeighborsFinite((int)x, (int)y);
                     }
                     else
                     {
-                         count = CountNeighborsToroidal((int)x, (int)y);
+                        count = CountNeighborsToroidal((int)x, (int)y);
                     }
-                    
+
+
+
                     // Apply the rules
                     if (universe[(int)x, (int)y] == true)
                     {
@@ -219,7 +218,7 @@ namespace GOLStartUpTemplate2
             generations++;
             // Update status strip generations
             toolStripStatusLabelGenerations.Text = "Generations = " + generations.ToString();
-            //THIS WOULD BE MY ALIVE COUNT... IF I HAD ONE!!!!!
+            //ALIVE COUNT
             toolStripStatusLabelAlive.Text = "Alive = " + alive.ToString();
 
             //Invalidate
@@ -233,7 +232,7 @@ namespace GOLStartUpTemplate2
 
                 for (float x = 0; x < universe.GetLength(0); x++)
                 {
-                    if (universe[(int)x,(int)y] == true)
+                    if (universe[(int)x, (int)y] == true)
                         alive++;
 
                 }
@@ -248,42 +247,25 @@ namespace GOLStartUpTemplate2
         private int CountNeighborsToroidal(int x, int y)
         {
             int count = 0;
-            //float xLen = universe.GetLength(0);
-            //float yLen = universe.GetLength(1);
             float xLen = universe.GetLength(0);
             float yLen = universe.GetLength(1);
+
             for (int yOffset = -1; yOffset <= 1; yOffset++)
             {
                 for (float xOffset = -1; xOffset <= 1; xOffset++)
                 {
+
                     float xCheck = x + xOffset;
                     float yCheck = y + yOffset;
-                    
+
                     if (xOffset == 0 && yOffset == 0) continue;// if xOffset and yOffset are both equal to 0 then continue
                     if (xCheck < 0) xLen = -1; // if xCheck is less than 0 then set to xLen - 1
                     if (yCheck < 0) yLen = -1; // if yCheck is less than 0 then set to yLen - 1
                     if (xCheck >= xLen) xCheck = 0; // if xCheck is greater than or equal too xLen then set to 0
                     if (yCheck >= yLen) yCheck = 0; // if yCheck is greater than or equal too yLen then set to 0
                     if (universe[(int)xCheck, (int)yCheck] == true) count++;
-                    if (count > 5)
-                        return count;
-                    
-                    //if (this.universe[x < upperBound1 ? x + 1 : 0, index4].Alive)
-                    //    ++num;
-                    //if (num >= 4)
-                    //    return num;
-                    //int index5 = x > 0 ? x - 1 : upperBound1;
-                    //int index6 = y < upperBound2 ? y + 1 : 0;
-                    //if (this.universe[index5, index6].Alive)
-                    //    ++num;
-                    //if (num >= 4)
-                    //    return num;
-                    //if (this.universe[x, index6].Alive)
-                    //    ++num;
-                    //if (num >= 4 || !this.universe[x < upperBound1 ? x + 1 : 0, index6].Alive)
-                    //    return num;
-                    //++num;
-                    //return num;
+
+
                 }
             }
             return count;
@@ -315,11 +297,12 @@ namespace GOLStartUpTemplate2
         private void finiteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             isFinite = true;
-            
+            graphicsPanel1.Invalidate();
         }
         private void toroidalToolStripMenuItem_Click(object sender, EventArgs e)
         {
             isFinite = false;
+            graphicsPanel1.Invalidate();
         }
 
         #endregion
@@ -331,9 +314,8 @@ namespace GOLStartUpTemplate2
         {
             timer.Stop();
             generations = 0;
-            
-            
-            //timer.Equals(0);
+            alive = 0;
+
             for (float y = 0; y < universe.GetLength(1); y++)
             {
                 // Iterate through the universe in the x, left to right
@@ -342,8 +324,10 @@ namespace GOLStartUpTemplate2
                     universe[(int)x, (int)y] = false;
                 }
             }
-            toolStripStatusLabelGenerations.Invalidate();
-            statusStrip1.Invalidate();
+            // Update status strip generations
+            toolStripStatusLabelGenerations.Text = "Generations = " + generations.ToString();
+            //ALIVE COUNT
+            toolStripStatusLabelAlive.Text = "Alive = " + alive.ToString();
             graphicsPanel1.Invalidate();
         }
         #region BUTTONS
@@ -363,7 +347,7 @@ namespace GOLStartUpTemplate2
         }
         private void Pause()
         {
-            
+
             timer.Stop(); // stop timer running
             graphicsPanel1.Invalidate();
         }
@@ -416,6 +400,7 @@ namespace GOLStartUpTemplate2
             Properties.Settings.Default.PanelColor = graphicsPanel1.BackColor;
             Properties.Settings.Default.GridColor = gridColor;
             Properties.Settings.Default.CellColor = cellColor;
+            Properties.Settings.Default.GameSpeed = gameSpeed;
             Properties.Settings.Default.Save();
         }
         #region BUTTONS
@@ -432,8 +417,44 @@ namespace GOLStartUpTemplate2
         //save as
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            SaveFileDialog dlg = new SaveFileDialog();
+            dlg.Filter = "All Files|*.*|Cells|*.cells";
+            dlg.FilterIndex = 2; dlg.DefaultExt = "cells";
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                StreamWriter writer = new StreamWriter(dlg.FileName);
 
-            
+                // Write any comments you want to include first.
+                // Prefix all comment strings with an exclamation point.
+                // Use WriteLine to write the strings to the file. 
+                // It appends a CRLF for you.
+                writer.WriteLine("!This is my comment.");
+                
+                // Iterate through the universe one row at a time.
+                for (int y = 0; y < universe.GetLength(1); y++)
+     {
+                    // Create a string to represent the current row.
+                    String currentRow = string.Empty;
+                    writer.WriteLine();
+                    // Iterate through the current row one cell at a time.
+                    for (int x = 0; x < universe.GetLength(0); x++)
+          {
+                        // If the universe[x,y] is alive then append 'O' (capital O)
+                        // to the row string.
+                        if (universe[x, y] == true)  writer.Write("O");                        
+                        // Else if the universe[x,y] is dead then append '.' (period)
+                        // to the row string.
+                        else if (universe[x, y] == false) writer.Write(".");
+                    }
+
+                    // Once the current row has been read through and the 
+                    // string constructed then write it to the file using WriteLine.
+                }
+
+                // After all rows and columns have been written then close the file.
+                writer.Close();
+            }
+
         }
         #endregion
         #endregion
@@ -576,7 +597,7 @@ namespace GOLStartUpTemplate2
         //set gamespeed
         private void SetSpeed()
         {
-            int gameSpeed = 50;
+
             ModalDialog dlg = new ModalDialog();
             dlg.GameSpeed = gameSpeed;
             if (DialogResult.OK == dlg.ShowDialog())
@@ -586,10 +607,17 @@ namespace GOLStartUpTemplate2
                 graphicsPanel1.Invalidate();
             }
         }
-        //Counting on off
+        //Counting on
         private void countingToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            counting = true;
+            graphicsPanel1.Invalidate();
+        }
+        //counting off
+        private void countingOffToolStripMenuItem_Click(object sender, EventArgs e)
+        {
             counting = false;
+            graphicsPanel1.Invalidate();
         }
         #region BUTTONS
         private void speedToolStripMenuItem_Click(object sender, EventArgs e)
@@ -601,11 +629,113 @@ namespace GOLStartUpTemplate2
             SetSpeed();
         }
 
+
         #endregion
         // end?
         #endregion
 
+        private void sizeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
 
-    }
+
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Filter = "All Files|*.*|Cells|*.cells";
+            dlg.FilterIndex = 2;
+
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                StreamReader reader = new StreamReader(dlg.FileName);
+
+                // Create a couple variables to calculate the width and height
+                // of the data in the file.
+                int maxWidth = 0;
+                int maxHeight = 0;
+
+                // Iterate through the file once to get its size.
+                while (!reader.EndOfStream)
+                {
+
+                    // Read one row at a time.
+                    // If the row begins with '!' then it is a comment
+                    // and should be ignored.
+                    string row = reader.ReadLine();
+                    if (row[0] is '!')
+                    {
+
+
+                        Next();
+
+                    }
+                    // If the row is not a comment then it is a row of cells.
+                    // Increment the maxHeight variable for each row read.
+                    if (row[1] != '!')
+                    {
+                        
+
+                            maxHeight++;
+                                             
+                    }
+                        // Get the length of the current row string
+                        // and adjust the maxWidth variable if necessary.
+                    maxWidth = Math.Max(maxWidth, row.Length);
+                }
+
+                // Resize the current universe and scratchPad
+                // to the width and height of the file calculated above.
+                // The universe array
+                universe = new bool[maxWidth, maxHeight];
+
+                //scratchpad
+                scratchPad = new bool[maxWidth, maxHeight];
+
+                // Reset the file pointer back to the beginning of the file.
+                reader.BaseStream.Seek(0, SeekOrigin.Begin);
+
+                // Iterate through the file again, this time reading in the cells.
+                while (!reader.EndOfStream)
+                {
+                    // Read one row at a time.
+                    string row = reader.ReadLine();
+
+                    // If the row begins with '!' then
+                    // it is a comment and should be ignored.
+                    if (row[0] == '!')
+                    {
+                        Next();
+                    }
+                    // If the row is not a comment then 
+                    // it is a row of cells and needs to be iterated through.
+                    if (row[1] != '!')
+                    {
+                        for (int xPos = 0; xPos < row.Length; xPos++)
+                        {
+                            // If row[xPos] is a 'O' (capital O) then
+                            // set the corresponding cell in the universe to alive.
+                            if (row[xPos] == 'O')
+                            {
+                                universe[maxWidth, maxHeight] = true;
+                            }
+                            // If row[xPos] is a '.' (period) then
+                            // set the corresponding cell in the universe to dead.
+                            if (row[xPos] == '.')
+                            {
+                                universe[maxWidth, maxHeight] = false;
+                            }
+                        }
+                    }
+                }
+
+                // Close the file.
+                reader.Close();
+            }
+        }
+    }   
+
+
 }
+    
 

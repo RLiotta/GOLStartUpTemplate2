@@ -11,5 +11,8 @@
     <Setting Name="CellColor" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">Blue</Value>
     </Setting>
+    <Setting Name="GameSpeed" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>
