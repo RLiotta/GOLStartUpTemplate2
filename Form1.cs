@@ -18,9 +18,10 @@ namespace GOLStartUpTemplate2
 
 
         // The universe array
-        bool[,] universe = new bool[20, 20];
+        bool[,] universe = new bool[19, 19];        
         //scratchpad
-        bool[,] scratchPad = new bool[20, 20];
+        bool[,] scratchPad = new bool[19, 19];
+        
         // Drawing colors
         Color gridColor = Color.DarkCyan;
         Color cellColor = Color.DeepPink;
@@ -115,8 +116,7 @@ namespace GOLStartUpTemplate2
                 e.Graphics.DrawString(hudAlive, graphicsPanel1.Font, hudBrush, new PointF(2,0));
                 e.Graphics.DrawString(hudGeneration, graphicsPanel1.Font, hudBrush, new PointF(2, 12));
                 e.Graphics.DrawString(hudSpeed, graphicsPanel1.Font, hudBrush, new PointF(2, 25));
-                    e.Graphics.DrawString(hudTime, graphicsPanel1.Font, hudBrush, new PointF(2, 40));
-                    graphicsPanel1.Invalidate();
+                e.Graphics.DrawString(hudTime, graphicsPanel1.Font, hudBrush, new PointF(2, 40));
                 
             }
             // Cleaning up pens and brushes
@@ -410,7 +410,7 @@ namespace GOLStartUpTemplate2
         #endregion
         #endregion
         //SAVING
-        #region SAVING
+        #region SAVING AND OPENING
         //save on close
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
@@ -741,7 +741,7 @@ namespace GOLStartUpTemplate2
         #endregion
         #endregion
         //Game Speed
-        #region Misc Settings
+        #region Gamespeed HUD and Counting
 
         //set gamespeed
         private void SetSpeed()
@@ -805,15 +805,12 @@ namespace GOLStartUpTemplate2
         }
 
 
+
+
+
         #endregion
         // end?
         #endregion
-
-        private void sizeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-
-        }
 
 
     }   
