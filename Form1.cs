@@ -15,13 +15,10 @@ namespace GOLStartUpTemplate2
     {
         //INITIALIZATIONS
         #region INITIALIZATIONS
-
-
         // The universe array
-        bool[,] universe = new bool[19, 19];        
+        bool[,] universe = new bool[19, 19];
         //scratchpad
         bool[,] scratchPad = new bool[19, 19];
-        
         // Drawing colors
         Color gridColor = Color.DarkCyan;
         Color cellColor = Color.DeepPink;
@@ -52,7 +49,6 @@ namespace GOLStartUpTemplate2
             StringFormat stringFormat = new StringFormat();
             stringFormat.Alignment = StringAlignment.Center;
             stringFormat.LineAlignment = StringAlignment.Center;
-
             //use floats to fix scaling 
             // Calculate the width and height of each cell in pixels
             // CELL WIDTH = WINDOW WIDTH / NUMBER OF CELLS IN X
@@ -86,20 +82,18 @@ namespace GOLStartUpTemplate2
                         if (isFinite == true)
                         {
                             count = CountNeighborsFinite((int)x, (int)y);
-                            
                         }
                         else
                         {
                             count = CountNeighborsToroidal((int)x, (int)y);
                         }
                     }
-                    if ((universe[(int)x, (int)y]) == false )
+                    if ((universe[(int)x, (int)y]) == false)
                     {
                         count = 0;
-                        
-                            e.Graphics.FillRectangle(cellDeadBrush, cellRect);
+                        e.Graphics.FillRectangle(cellDeadBrush, cellRect);
                     }
-                        if (counting == true) e.Graphics.DrawString(count.ToString(), font, Brushes.Black, cellRect, stringFormat);
+                    if (counting == true) e.Graphics.DrawString(count.ToString(), font, Brushes.Black, cellRect, stringFormat);
                     // Outline the cell with a pen
                     e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
                     //e.Graphics.FillRectangle(Brushes.White, cellRect);
@@ -113,11 +107,10 @@ namespace GOLStartUpTemplate2
                 string hudGeneration = "Generation: " + generations;
                 string hudSpeed = "Speed: " + gameSpeed;
                 string hudTime = System.DateTime.Now.ToString();
-                e.Graphics.DrawString(hudAlive, graphicsPanel1.Font, hudBrush, new PointF(2,0));
+                e.Graphics.DrawString(hudAlive, graphicsPanel1.Font, hudBrush, new PointF(2, 0));
                 e.Graphics.DrawString(hudGeneration, graphicsPanel1.Font, hudBrush, new PointF(2, 12));
                 e.Graphics.DrawString(hudSpeed, graphicsPanel1.Font, hudBrush, new PointF(2, 25));
                 e.Graphics.DrawString(hudTime, graphicsPanel1.Font, hudBrush, new PointF(2, 40));
-                
             }
             // Cleaning up pens and brushes
             gridPen.Dispose();
@@ -125,7 +118,6 @@ namespace GOLStartUpTemplate2
         }
         private void graphicsPanel1_MouseClick(object sender, MouseEventArgs e)
         {
-
             // If the left mouse button was clicked
             if (e.Button == MouseButtons.Left)
             {
@@ -135,18 +127,16 @@ namespace GOLStartUpTemplate2
                 float cellHeight = graphicsPanel1.ClientSize.Height / universe.GetLength(1);
                 // Calculate the cell that was clicked in
                 // CELL X = MOUSE X / CELL WIDTH
-                float x = e.X / cellWidth ;
+                float x = e.X / cellWidth;
                 // CELL Y = MOUSE Y / CELL HEIGHT
-                float y = e.Y / cellHeight ;
+                float y = e.Y / cellHeight;
                 // Toggle the cell's state
-                universe[(int)x, (int)y] = !universe[(int)x, (int)y] ;
-
+                universe[(int)x, (int)y] = !universe[(int)x, (int)y];
                 // Tell Windows you need to repaint
                 graphicsPanel1.Invalidate();
             }
-
         }
-        #endregion 
+        #endregion
 
         //NEXTGEN AND GAME SIZE
         #region NEXTGEN AND GAME SIZE
@@ -510,7 +500,7 @@ namespace GOLStartUpTemplate2
                 // Reset the file pointer back to the beginning of the file.
                 reader.BaseStream.Seek(0, SeekOrigin.Begin);
                 // Iterate through the file again, this time reading in the cells.
-                
+
                 int y = 0; // index for ypos
                 while (!reader.EndOfStream)
                 {
@@ -569,8 +559,8 @@ namespace GOLStartUpTemplate2
         //file menu Open
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Open();        
-            
+            Open();
+
         }
         //save button
         private void saveToolStripButton_Click(object sender, EventArgs e)
@@ -586,7 +576,7 @@ namespace GOLStartUpTemplate2
         #endregion
         //Color
         #region COLOR METHODS
-        //color background
+
         private void ColorBackground()
         {
             ColorDialog dlg = new ColorDialog();
@@ -681,11 +671,9 @@ namespace GOLStartUpTemplate2
                 // Iterate through the universe in the x, left to right
                 for (int x = 0; x < universe.GetLength(0); x++)
                 {
-
                     if (rand.Next(0, 4) == 0)
                     {
                         universe[x, y] = true;
-
                     }
                 }
             }
@@ -700,21 +688,17 @@ namespace GOLStartUpTemplate2
                 // Iterate through the universe in the x, left to right
                 for (int x = 0; x < universe.GetLength(0); x++)
                 {
-
                     if (rand.Next(0, 4) == 0)
                     {
                         universe[x, y] = true;
-
                     }
                 }
             }
             graphicsPanel1.Invalidate();
         }
-        
         private void SetRandomSeed()
         {
             generations = 0;
-
             int seed = 0;
             ModalDialog dlg = new ModalDialog();
             dlg.Seed = seed;
@@ -730,7 +714,6 @@ namespace GOLStartUpTemplate2
         // random form tool strip
         private void randomFromTimeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
             Randomize();
         }
         //right clicky random seed
@@ -742,11 +725,9 @@ namespace GOLStartUpTemplate2
         #endregion
         //Game Speed
         #region Gamespeed HUD and Counting
-
         //set gamespeed
         private void SetSpeed()
         {
-
             ModalDialog dlg = new ModalDialog();
             dlg.GameSpeed = gameSpeed;
             if (DialogResult.OK == dlg.ShowDialog())
@@ -803,19 +784,10 @@ namespace GOLStartUpTemplate2
         {
             HUDStatus();
         }
-
-
-
-
-
         #endregion
         // end?
         #endregion
-
-
-    }   
-
-
+    }
 }
-    
+
 
