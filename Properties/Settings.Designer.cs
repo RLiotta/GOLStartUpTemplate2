@@ -37,7 +37,7 @@ namespace GOLStartUpTemplate2.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Red")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Purple")]
         public global::System.Drawing.Color GridColor {
             get {
                 return ((global::System.Drawing.Color)(this["GridColor"]));
@@ -49,7 +49,7 @@ namespace GOLStartUpTemplate2.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Blue")]
+        [global::System.Configuration.DefaultSettingValueAttribute("DeepPink")]
         public global::System.Drawing.Color CellColor {
             get {
                 return ((global::System.Drawing.Color)(this["CellColor"]));
@@ -73,7 +73,7 @@ namespace GOLStartUpTemplate2.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("White")]
+        [global::System.Configuration.DefaultSettingValueAttribute("DarkCyan")]
         public global::System.Drawing.Color CellDeadColor {
             get {
                 return ((global::System.Drawing.Color)(this["CellDeadColor"]));

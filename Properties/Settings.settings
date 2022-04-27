@@ -6,16 +6,16 @@
       <Value Profile="(Default)">Black</Value>
     </Setting>
     <Setting Name="GridColor" Type="System.Drawing.Color" Scope="User">
-      <Value Profile="(Default)">Red</Value>
+      <Value Profile="(Default)">Purple</Value>
     </Setting>
     <Setting Name="CellColor" Type="System.Drawing.Color" Scope="User">
-      <Value Profile="(Default)">Blue</Value>
+      <Value Profile="(Default)">DeepPink</Value>
     </Setting>
     <Setting Name="GameSpeed" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">100</Value>
     </Setting>
     <Setting Name="CellDeadColor" Type="System.Drawing.Color" Scope="User">
-      <Value Profile="(Default)">White</Value>
+      <Value Profile="(Default)">DarkCyan</Value>
     </Setting>
   </Settings>
 </SettingsFile>
