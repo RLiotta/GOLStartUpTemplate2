@@ -108,9 +108,11 @@ namespace GOLStartUpTemplate2
             if (isHUDvisible == true)
             {
                 Brush hudBrush = new SolidBrush(Color.Cornsilk);
+                string hudAlive = "Alive: " + alive;
                 string hudGeneration = "Generation: " + generations;
                 string hudSpeed = "Speed: " + gameSpeed;
                 string hudTime = System.DateTime.Now.ToString();
+                e.Graphics.DrawString(hudAlive, graphicsPanel1.Font, hudBrush, new PointF(2,0));
                 e.Graphics.DrawString(hudGeneration, graphicsPanel1.Font, hudBrush, new PointF(2, 12));
                 e.Graphics.DrawString(hudSpeed, graphicsPanel1.Font, hudBrush, new PointF(2, 25));
                     e.Graphics.DrawString(hudTime, graphicsPanel1.Font, hudBrush, new PointF(2, 40));
@@ -760,6 +762,11 @@ namespace GOLStartUpTemplate2
             if (hUDToolStripMenuItem.Checked == true)
             {
                 isHUDvisible = true;
+                graphicsPanel1.Invalidate();
+            }
+            else
+            {
+                isHUDvisible = false;
                 graphicsPanel1.Invalidate();
             }
         }
