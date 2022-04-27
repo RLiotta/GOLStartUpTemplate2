@@ -61,6 +61,7 @@ namespace GOLStartUpTemplate2.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
         public int GameSpeed {
             get {
                 return ((int)(this["GameSpeed"]));
