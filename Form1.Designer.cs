@@ -50,7 +50,6 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.finiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toroidalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.playToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pauseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -58,7 +57,6 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.speedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.countingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.countingOffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.colorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.backgroundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -256,15 +254,13 @@
             // 
             this.gameToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.finiteToolStripMenuItem,
-            this.toroidalToolStripMenuItem,
             this.toolStripSeparator3,
             this.playToolStripMenuItem,
             this.pauseToolStripMenuItem,
             this.nextToolStripMenuItem,
             this.toolStripSeparator1,
             this.speedToolStripMenuItem,
-            this.countingToolStripMenuItem,
-            this.countingOffToolStripMenuItem});
+            this.countingToolStripMenuItem});
             this.gameToolStripMenuItem.Name = "gameToolStripMenuItem";
             this.gameToolStripMenuItem.ShowShortcutKeys = false;
             this.gameToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
@@ -272,29 +268,24 @@
             // 
             // finiteToolStripMenuItem
             // 
+            this.finiteToolStripMenuItem.Checked = true;
+            this.finiteToolStripMenuItem.CheckOnClick = true;
+            this.finiteToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.finiteToolStripMenuItem.Name = "finiteToolStripMenuItem";
-            this.finiteToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
-            this.finiteToolStripMenuItem.Text = "Finite";
+            this.finiteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.finiteToolStripMenuItem.Text = "Finite/Toroidal";
             this.finiteToolStripMenuItem.Click += new System.EventHandler(this.finiteToolStripMenuItem_Click);
-            // 
-            // toroidalToolStripMenuItem
-            // 
-            this.toroidalToolStripMenuItem.CheckOnClick = true;
-            this.toroidalToolStripMenuItem.Name = "toroidalToolStripMenuItem";
-            this.toroidalToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
-            this.toroidalToolStripMenuItem.Text = "Toroidal";
-            this.toroidalToolStripMenuItem.Click += new System.EventHandler(this.toroidalToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(141, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(177, 6);
             // 
             // playToolStripMenuItem
             // 
             this.playToolStripMenuItem.Name = "playToolStripMenuItem";
             this.playToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.playToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.playToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.playToolStripMenuItem.Text = "Play";
             this.playToolStripMenuItem.Click += new System.EventHandler(this.playToolStripMenuItem_Click);
             // 
@@ -302,7 +293,7 @@
             // 
             this.pauseToolStripMenuItem.Name = "pauseToolStripMenuItem";
             this.pauseToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F6;
-            this.pauseToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.pauseToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.pauseToolStripMenuItem.Text = "Pause";
             this.pauseToolStripMenuItem.Click += new System.EventHandler(this.pauseToolStripMenuItem_Click);
             // 
@@ -310,35 +301,31 @@
             // 
             this.nextToolStripMenuItem.Name = "nextToolStripMenuItem";
             this.nextToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F7;
-            this.nextToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.nextToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.nextToolStripMenuItem.Text = "Next";
             this.nextToolStripMenuItem.Click += new System.EventHandler(this.nextToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(141, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // speedToolStripMenuItem
             // 
             this.speedToolStripMenuItem.Name = "speedToolStripMenuItem";
-            this.speedToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.speedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.speedToolStripMenuItem.Text = "Speed";
             this.speedToolStripMenuItem.Click += new System.EventHandler(this.speedToolStripMenuItem_Click);
             // 
             // countingToolStripMenuItem
             // 
+            this.countingToolStripMenuItem.Checked = true;
+            this.countingToolStripMenuItem.CheckOnClick = true;
+            this.countingToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.countingToolStripMenuItem.Name = "countingToolStripMenuItem";
-            this.countingToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
-            this.countingToolStripMenuItem.Text = "Counting On";
+            this.countingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.countingToolStripMenuItem.Text = "Counting";
             this.countingToolStripMenuItem.Click += new System.EventHandler(this.countingToolStripMenuItem_Click);
-            // 
-            // countingOffToolStripMenuItem
-            // 
-            this.countingOffToolStripMenuItem.Name = "countingOffToolStripMenuItem";
-            this.countingOffToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
-            this.countingOffToolStripMenuItem.Text = "Counting Off";
-            this.countingOffToolStripMenuItem.Click += new System.EventHandler(this.countingOffToolStripMenuItem_Click);
             // 
             // menuStrip1
             // 
@@ -426,7 +413,7 @@
             this.sizeToolStripMenuItem,
             this.hUDToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 132);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(107, 110);
             // 
             // colorToolStripMenuItem1
             // 
@@ -436,7 +423,7 @@
             this.cellToolStripMenuItem1,
             this.deadToolStripMenuItem});
             this.colorToolStripMenuItem1.Name = "colorToolStripMenuItem1";
-            this.colorToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.colorToolStripMenuItem1.Size = new System.Drawing.Size(106, 22);
             this.colorToolStripMenuItem1.Text = "Color";
             // 
             // backgroundToolStripMenuItem1
@@ -470,39 +457,37 @@
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(103, 6);
             // 
             // speedToolStripMenuItem1
             // 
             this.speedToolStripMenuItem1.Name = "speedToolStripMenuItem1";
-            this.speedToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.speedToolStripMenuItem1.Size = new System.Drawing.Size(106, 22);
             this.speedToolStripMenuItem1.Text = "Speed";
             this.speedToolStripMenuItem1.Click += new System.EventHandler(this.speedToolStripMenuItem1_Click);
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(103, 6);
             // 
             // toolStripSeparator8
             // 
             this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator8.Size = new System.Drawing.Size(103, 6);
             // 
             // sizeToolStripMenuItem
             // 
             this.sizeToolStripMenuItem.Name = "sizeToolStripMenuItem";
-            this.sizeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.sizeToolStripMenuItem.Size = new System.Drawing.Size(106, 22);
             this.sizeToolStripMenuItem.Text = "Size";
             this.sizeToolStripMenuItem.Click += new System.EventHandler(this.sizeToolStripMenuItem_Click);
             // 
             // hUDToolStripMenuItem
             // 
-            this.hUDToolStripMenuItem.Checked = true;
             this.hUDToolStripMenuItem.CheckOnClick = true;
-            this.hUDToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.hUDToolStripMenuItem.Name = "hUDToolStripMenuItem";
-            this.hUDToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.hUDToolStripMenuItem.Size = new System.Drawing.Size(106, 22);
             this.hUDToolStripMenuItem.Text = "HUD";
             this.hUDToolStripMenuItem.Click += new System.EventHandler(this.hUDToolStripMenuItem_Click);
             // 
@@ -561,7 +546,6 @@
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem gameToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem finiteToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem toroidalToolStripMenuItem;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem playToolStripMenuItem;
@@ -586,7 +570,6 @@
         private System.Windows.Forms.ToolStripMenuItem speedToolStripMenuItem1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelGenerations;
         private System.Windows.Forms.ToolStripMenuItem countingToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem countingOffToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
         private System.Windows.Forms.ToolStripMenuItem sizeToolStripMenuItem;

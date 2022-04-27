@@ -113,7 +113,8 @@ namespace GOLStartUpTemplate2
                 string hudTime = System.DateTime.Now.ToString();
                 e.Graphics.DrawString(hudGeneration, graphicsPanel1.Font, hudBrush, new PointF(2, 12));
                 e.Graphics.DrawString(hudSpeed, graphicsPanel1.Font, hudBrush, new PointF(2, 25));
-                e.Graphics.DrawString(hudTime, graphicsPanel1.Font, hudBrush, new PointF(2, 40));
+                    e.Graphics.DrawString(hudTime, graphicsPanel1.Font, hudBrush, new PointF(2, 40));
+                    graphicsPanel1.Invalidate();
                 
             }
             // Cleaning up pens and brushes
@@ -304,16 +305,21 @@ namespace GOLStartUpTemplate2
             return count;
         }
         #region BUTTONS
+        //toggle universe boundary 
         private void finiteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            isFinite = true;
-            graphicsPanel1.Invalidate();
+            if (finiteToolStripMenuItem.Checked == true)
+            {
+                isFinite = true;
+                graphicsPanel1.Invalidate();
+            }
+            else
+            {
+                isFinite = false;
+                graphicsPanel1.Invalidate();
+            }
         }
-        private void toroidalToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            isFinite = false;
-            graphicsPanel1.Invalidate();
-        }
+
 
         #endregion
 
@@ -702,6 +708,7 @@ namespace GOLStartUpTemplate2
             }
             graphicsPanel1.Invalidate();
         }
+        
         private void SetRandomSeed()
         {
             generations = 0;
@@ -711,6 +718,7 @@ namespace GOLStartUpTemplate2
             dlg.Seed = seed;
             if (DialogResult.OK == dlg.ShowDialog())
             {
+                //set seed from dialog 
                 seed = dlg.Seed;
                 RandomizeSeed(seed);
                 graphicsPanel1.Invalidate();
@@ -746,11 +754,28 @@ namespace GOLStartUpTemplate2
                 graphicsPanel1.Invalidate();
             }
         }
-        //Counting on
+        //hud toggle
+        private void HUDStatus()
+        {
+            if (hUDToolStripMenuItem.Checked == true)
+            {
+                isHUDvisible = true;
+                graphicsPanel1.Invalidate();
+            }
+        }
+        //Counting toggle
         private void countingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            counting = true;
-            graphicsPanel1.Invalidate();
+            if (countingToolStripMenuItem.Checked == true)
+            {
+                counting = true;
+                graphicsPanel1.Invalidate();
+            }
+            else
+            {
+                counting = false;
+                graphicsPanel1.Invalidate();
+            }
         }
         //counting off
         private void countingOffToolStripMenuItem_Click(object sender, EventArgs e)
@@ -767,6 +792,10 @@ namespace GOLStartUpTemplate2
         {
             SetSpeed();
         }
+        private void hUDToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            HUDStatus();
+        }
 
 
         #endregion
@@ -779,15 +808,7 @@ namespace GOLStartUpTemplate2
 
         }
 
-        private void hUDToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (hUDToolStripMenuItem.Checked == true)
-            {
-                isHUDvisible = true;
-                graphicsPanel1.Invalidate();
-            }
-        }
-        
+
     }   
 
 
