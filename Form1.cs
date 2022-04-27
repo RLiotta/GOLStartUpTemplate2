@@ -33,7 +33,7 @@ namespace GOLStartUpTemplate2
         int alive = 0;
         int gameSpeed = 100;
         int count;
-        //bool isHUDvisible = false;
+        bool isHUDvisible;
         bool isFinite = true;
         bool counting = true;
         #endregion
@@ -81,7 +81,7 @@ namespace GOLStartUpTemplate2
                     if (universe[(int)x, (int)y] == true)
                     {
                         e.Graphics.FillRectangle(cellBrush, cellRect);
-                        
+                        // universe selector
                         if (isFinite == true)
                         {
                             count = CountNeighborsFinite((int)x, (int)y);
@@ -99,11 +99,22 @@ namespace GOLStartUpTemplate2
                             e.Graphics.FillRectangle(cellDeadBrush, cellRect);
                     }
                         if (counting == true) e.Graphics.DrawString(count.ToString(), font, Brushes.Black, cellRect, stringFormat);
-                    
                     // Outline the cell with a pen
                     e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
                     //e.Graphics.FillRectangle(Brushes.White, cellRect);
                 }
+            }
+            //hud display
+            if (isHUDvisible == true)
+            {
+                Brush hudBrush = new SolidBrush(Color.Cornsilk);
+                string hudGeneration = "Generation: " + generations;
+                string hudSpeed = "Speed: " + gameSpeed;
+                string hudTime = System.DateTime.Now.ToString();
+                e.Graphics.DrawString(hudGeneration, graphicsPanel1.Font, hudBrush, new PointF(2, 12));
+                e.Graphics.DrawString(hudSpeed, graphicsPanel1.Font, hudBrush, new PointF(2, 25));
+                e.Graphics.DrawString(hudTime, graphicsPanel1.Font, hudBrush, new PointF(2, 40));
+                
             }
             // Cleaning up pens and brushes
             gridPen.Dispose();
@@ -403,14 +414,7 @@ namespace GOLStartUpTemplate2
             Properties.Settings.Default.GameSpeed = gameSpeed;
             Properties.Settings.Default.Save();
         }
-        #region BUTTONS
-        // File menu close
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-        //save menu
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        private void Save()
         {
             SaveFileDialog dlg = new SaveFileDialog();
             dlg.Filter = "All Files|*.*|Cells|*.cells";
@@ -448,18 +452,15 @@ namespace GOLStartUpTemplate2
 
                     // Once the current row has been read through and the 
                     // string constructed then write it to the file using WriteLine.
-                    
+
                 }
 
                 // After all rows and columns have been written then close the file.
                 writer.Close();
             }
         }
-
-        //Open
-        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        private void Open()
         {
-
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Filter = "All Files|*.*|Cells|*.cells";
             dlg.FilterIndex = 2;
@@ -490,21 +491,19 @@ namespace GOLStartUpTemplate2
                         // and adjust the maxWidth variable if necessary.
                         maxHeight++;
                         if (row.Length > maxWidth)
-                            maxWidth = row.Length;                        
+                            maxWidth = row.Length;
                     }
                 }
                 // Resize the current universe and scratchPad
                 // to the width and height of the file calculated above.
                 // The universe array
                 universe = new bool[maxWidth, maxHeight];
-                //scratchpad
                 scratchPad = new bool[maxWidth, maxHeight];
-                //maxWidth--;
                 // Reset the file pointer back to the beginning of the file.
                 reader.BaseStream.Seek(0, SeekOrigin.Begin);
                 // Iterate through the file again, this time reading in the cells.
-                int y = 0;
-
+                
+                int y = 0; // index for ypos
                 while (!reader.EndOfStream)
                 {
                     // Read one row at a time.
@@ -537,7 +536,7 @@ namespace GOLStartUpTemplate2
                                 continue;
                                 //universe[xPos, maxHeight] = false;
                             }
-                            
+
                         }
                         y++;
                     }
@@ -546,6 +545,34 @@ namespace GOLStartUpTemplate2
                 reader.Close();
                 graphicsPanel1.Invalidate();
             }
+        }
+        #region BUTTONS
+        // File menu close
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+        //file menu save
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Save();
+        }
+
+        //file menu Open
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Open();        
+            
+        }
+        //save button
+        private void saveToolStripButton_Click(object sender, EventArgs e)
+        {
+            Save();
+        }
+        //Open button
+        private void openToolStripButton_Click(object sender, EventArgs e)
+        {
+            Open();
         }
         #endregion
         #endregion
@@ -752,7 +779,15 @@ namespace GOLStartUpTemplate2
 
         }
 
-
+        private void hUDToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (hUDToolStripMenuItem.Checked == true)
+            {
+                isHUDvisible = true;
+                graphicsPanel1.Invalidate();
+            }
+        }
+        
     }   
 
 
