@@ -135,7 +135,8 @@ namespace GOLStartUpTemplate2
             }
 
         }
-        #endregion
+        #endregion 
+
         //NEXTGEN AND GAME SIZE
         #region NEXTGEN AND GAME SIZE
         public Form1()
@@ -455,11 +456,8 @@ namespace GOLStartUpTemplate2
                 writer.Close();
             }
         }
-        //save as
-        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            
-        }
+
+        //Open
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
@@ -467,7 +465,6 @@ namespace GOLStartUpTemplate2
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Filter = "All Files|*.*|Cells|*.cells";
             dlg.FilterIndex = 2;
-            //dlg.CheckPathExists = true;//..
             if (DialogResult.OK == dlg.ShowDialog())
             {
                 StreamReader reader = new StreamReader(dlg.FileName);
@@ -483,7 +480,11 @@ namespace GOLStartUpTemplate2
                     // If the row begins with '!' then it is a comment
                     // and should be ignored.
                     string row = reader.ReadLine();
-                    if (row[0] != '!')
+                    if (row[0] == '!')
+                    {
+
+                    }
+                    else if (row[0] != '!')
                     {
                         // If the row is not a comment then it is a row of cells.
                         // Increment the maxHeight variable for each row read.
@@ -524,20 +525,23 @@ namespace GOLStartUpTemplate2
                             // set the corresponding cell in the universe to alive.
                             if (row[xPos] == 'O')
                             {
-                                
+                                //lifeGiver();
                                 //universe[maxWidth, maxHeight] = true;
                                 universe[xPos, y] = true;
+                                continue;
                             }
                             //If row[xPos] is a '.' (period) then
                             //set the corresponding cell in the universe to dead.
-                            else if (row[xPos] == '.')
+                            if (row[xPos] == '.')
                             {
+                                //lifeTaker();
                                 universe[xPos, y] = false;
-
+                                continue;
                                 //universe[xPos, maxHeight] = false;
                             }
                             
-                        }                        
+                        }
+                        y++;
                     }
                 }
                 // Close the file.
@@ -683,6 +687,7 @@ namespace GOLStartUpTemplate2
         #endregion
         //Game Speed
         #region Misc Settings
+
         //set gamespeed
         private void SetSpeed()
         {
