@@ -18,12 +18,13 @@ namespace GOLStartUpTemplate2
 
 
         // The universe array
-        bool[,] universe = new bool[5, 5];
+        bool[,] universe = new bool[20, 20];
         //scratchpad
-        bool[,] scratchPad = new bool[5, 5];
+        bool[,] scratchPad = new bool[20, 20];
         // Drawing colors
         Color gridColor = Color.DarkCyan;
         Color cellColor = Color.DeepPink;
+        Color cellDeadColor = Color.Red;
         // The Timer class
         Timer timer = new Timer();
         // Generation count
@@ -61,14 +62,14 @@ namespace GOLStartUpTemplate2
             Pen gridPen = new Pen(gridColor, 1);
             // A Brush for filling living cells interiors (color)
             Brush cellBrush = new SolidBrush(cellColor);
+            // A Brush for filling dead cell interiors (color)
+            Brush cellDeadBrush = new SolidBrush(cellDeadColor);
             // Iterate through the universe in the y, top to bottom
             for (float y = 0; y < universe.GetLength(1); y++)
             {
                 // Iterate through the universe in the x, left to right
                 for (float x = 0; x < universe.GetLength(0); x++)
                 {
-
-
                     // A rectangle to represent each cell in pixels
                     // RectangleF
                     RectangleF cellRect = RectangleF.Empty;
@@ -80,34 +81,30 @@ namespace GOLStartUpTemplate2
                     if (universe[(int)x, (int)y] == true)
                     {
                         e.Graphics.FillRectangle(cellBrush, cellRect);
-                        ////counting neighbors
-                        ////counting cells
-                        //Font font = new Font("Arial", 20f);
-
-                        //StringFormat stringFormat = new StringFormat();
-                        //stringFormat.Alignment = StringAlignment.Center;
-                        //stringFormat.LineAlignment = StringAlignment.Center;
-
-
+                        
                         if (isFinite == true)
                         {
                             count = CountNeighborsFinite((int)x, (int)y);
+                            
                         }
                         else
                         {
                             count = CountNeighborsToroidal((int)x, (int)y);
                         }
-                        if (counting == true) e.Graphics.DrawString(count.ToString(), font, Brushes.Black, cellRect, stringFormat);
                     }
-
+                    if ((universe[(int)x, (int)y]) == false )
+                    {
+                        count = 0;
+                        
+                            e.Graphics.FillRectangle(cellDeadBrush, cellRect);
+                    }
+                        if (counting == true) e.Graphics.DrawString(count.ToString(), font, Brushes.Black, cellRect, stringFormat);
+                    
                     // Outline the cell with a pen
                     e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
-
                     //e.Graphics.FillRectangle(Brushes.White, cellRect);
                 }
             }
-
-
             // Cleaning up pens and brushes
             gridPen.Dispose();
             cellBrush.Dispose();
@@ -124,11 +121,11 @@ namespace GOLStartUpTemplate2
                 float cellHeight = graphicsPanel1.ClientSize.Height / universe.GetLength(1);
                 // Calculate the cell that was clicked in
                 // CELL X = MOUSE X / CELL WIDTH
-                float x = e.X / cellWidth;
+                float x = e.X / cellWidth ;
                 // CELL Y = MOUSE Y / CELL HEIGHT
-                float y = e.Y / cellHeight;
+                float y = e.Y / cellHeight ;
                 // Toggle the cell's state
-                universe[(int)x, (int)y] = !universe[(int)x, (int)y];
+                universe[(int)x, (int)y] = !universe[(int)x, (int)y] ;
 
                 // Tell Windows you need to repaint
                 graphicsPanel1.Invalidate();
@@ -151,6 +148,7 @@ namespace GOLStartUpTemplate2
             graphicsPanel1.BackColor = Properties.Settings.Default.PanelColor;
             gridColor = Properties.Settings.Default.GridColor;
             cellColor = Properties.Settings.Default.CellColor;
+            cellDeadColor = Properties.Settings.Default.CellDeadColor;
             gameSpeed = Properties.Settings.Default.GameSpeed;
             //graphicsPanel1.
         }
@@ -401,6 +399,7 @@ namespace GOLStartUpTemplate2
             Properties.Settings.Default.PanelColor = graphicsPanel1.BackColor;
             Properties.Settings.Default.GridColor = gridColor;
             Properties.Settings.Default.CellColor = cellColor;
+            Properties.Settings.Default.CellDeadColor = cellDeadColor;
             Properties.Settings.Default.GameSpeed = gameSpeed;
             Properties.Settings.Default.Save();
         }
@@ -460,7 +459,6 @@ namespace GOLStartUpTemplate2
         //Open
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
 
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Filter = "All Files|*.*|Cells|*.cells";
@@ -583,7 +581,27 @@ namespace GOLStartUpTemplate2
                 graphicsPanel1.Invalidate();
             }
         }
+        private void ColorCellDead()
+        {
+            ColorDialog dlg = new ColorDialog();
+            dlg.Color = Color.White;
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                cellDeadColor = dlg.Color;
+                graphicsPanel1.Invalidate();
+            }
+        }
         #region BUTTONS
+        // menu dead cell
+        private void deadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorCellDead();
+        }
+        //right click dead cell
+        private void deadToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            ColorCellDead();
+        }
         private void backgroundToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
@@ -734,7 +752,7 @@ namespace GOLStartUpTemplate2
 
         }
 
-        
+
     }   
 
 

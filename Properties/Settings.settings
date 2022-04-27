@@ -14,5 +14,8 @@
     <Setting Name="GameSpeed" Type="System.Int32" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="CellDeadColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">White</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
